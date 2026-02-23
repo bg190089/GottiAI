@@ -1225,36 +1225,92 @@ ${pacHeader}
 }
 
 // ═══════════════════════════════════════════════════════════════════
+
+// Wrapper para chamadas ao /api/db (evita cache, adiciona timeout e mostra erros)
+async function dbFetch(path, { method='GET', body=null, headers={} } = {}) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), 15000);
+
+  const url = '/api/db?path=' + encodeURIComponent(path) + '&_ts=' + Date.now();
+  try {
+    const r = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json', ...headers },
+      body: body ? JSON.stringify(body) : null,
+      cache: 'no-store',
+      signal: ctrl.signal
+    });
+
+    // Tenta parsear erro do servidor
+    const text = await r.text();
+    let data = null;
+    try { data = text ? JSON.parse(text) : null; } catch { data = text; }
+
+    if (!r.ok) {
+      const msg = (data && typeof data === 'object' && (data.error || data.message)) ? (data.error || data.message) : (text || r.statusText);
+      throw new Error(msg || `Erro HTTP ${r.status}`);
+    }
+    return data;
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+// Mantém fila de pendências caso o Supabase falhe (salva local e tenta sincronizar depois)
+function enqueuePending(payload) {
+  const q = JSON.parse(localStorage.getItem('mb_pending') || '[]');
+  q.push({ ts: Date.now(), payload });
+  localStorage.setItem('mb_pending', JSON.stringify(q));
+}
+
+async function flushPending() {
+  const q = JSON.parse(localStorage.getItem('mb_pending') || '[]');
+  if (!q.length) return;
+  const still = [];
+  for (const item of q) {
+    try {
+      await dbFetch('/rest/v1/laudos', { method: 'POST', body: item.payload });
+    } catch {
+      still.push(item);
+    }
+  }
+  localStorage.setItem('mb_pending', JSON.stringify(still));
+}
+
 //  BANCO
 // ═══════════════════════════════════════════════════════════════════
 async function loadBanco() {
+  // tenta sincronizar pendências antes de puxar a lista
+  try { await flushPending(); } catch {}
+
   try {
-    const r = await fetch('/api/db?path=' + encodeURIComponent(
+    const data = await dbFetch(
       '/rest/v1/laudos?select=id,exam,classification,observation,report_text,patient_name,patient_age,exam_date,created_at' +
       '&order=created_at.desc&limit=300'
-    ));
-    if (r.ok) {
-      const data = await r.json();
-      if (Array.isArray(data) && data.length) {
-        banco = data.map(d => ({
-          id:    d.id,
-          exam:  d.exam || '',
-          cls:   d.classification || 'normal',
-          obs:   d.observation || '',
-          txt:   d.report_text || '',
-          nome:  d.patient_name || '',
-          idade: d.patient_age || '',
-          data:  d.exam_date || '',
-          dt:    d.created_at ? new Date(d.created_at).toLocaleDateString('pt-BR') : ''
-        }));
-        localStorage.setItem('mb', JSON.stringify(banco));
-        renderBanco();
-        return;
-      }
+    );
+
+    if (Array.isArray(data)) {
+      banco = data.map(d => ({
+        id:    d.id,
+        exam:  d.exam || '',
+        cls:   d.classification || 'normal',
+        obs:   d.observation || '',
+        txt:   d.report_text || '',
+        nome:  d.patient_name || '',
+        idade: d.patient_age || '',
+        data:  d.exam_date || '',
+        dt:    d.created_at ? new Date(d.created_at).toLocaleDateString('pt-BR') : ''
+      }));
+
+      localStorage.setItem('mb', JSON.stringify(banco));
+      renderBanco();
+      return;
     }
   } catch (e) {
     console.warn('loadBanco fallback:', e.message);
+    toast('Banco offline (usando cache local)', 'inf');
   }
+
   banco = JSON.parse(localStorage.getItem('mb') || '[]');
   renderBanco();
 }
@@ -1262,27 +1318,47 @@ async function loadBanco() {
 function autoSave(examId, txt) {
   if (!txt || banco.find(b => b.txt === txt)) return;
   const pac = getPaciente();
+
+  // id temporário local (até o Supabase devolver o id real)
+  const tempId = Date.now();
   const item = {
-    id: Date.now(), exam: examId, cls: 'normal', obs: '', txt,
+    id: tempId, exam: examId, cls: 'normal', obs: '', txt,
     nome: pac.nome, idade: pac.idade, data: pac.data,
     dt: new Date().toLocaleDateString('pt-BR')
   };
+
   banco.unshift(item);
   localStorage.setItem('mb', JSON.stringify(banco));
   renderBanco();
-  // Salva no Supabase em background
-  fetch('/api/db?path=' + encodeURIComponent('/rest/v1/laudos'), {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      exam: examId, exam_name: examId, classification: 'normal',
-      observation: '', report_text: txt,
-      patient_name: pac.nome, patient_age: pac.idade, exam_date: pac.data
-    })
-  }).catch(e => console.warn('autoSave remote:', e.message));
+
+  const payload = {
+    exam: examId, exam_name: examId, classification: 'normal',
+    observation: '', report_text: txt,
+    patient_name: pac.nome, patient_age: pac.idade, exam_date: pac.data
+  };
+
+  // Salva no Supabase e sincroniza o ID (ou entra na fila se falhar)
+  (async () => {
+    try {
+      const created = await dbFetch('/rest/v1/laudos', { method: 'POST', body: payload });
+      const row = Array.isArray(created) ? created[0] : created;
+      if (row?.id) {
+        const idx = banco.findIndex(l => l.id === tempId);
+        if (idx >= 0) {
+          banco[idx].id = row.id; // id real do Supabase
+          localStorage.setItem('mb', JSON.stringify(banco));
+          renderBanco();
+        }
+      }
+    } catch (e) {
+      enqueuePending(payload);
+      console.warn('autoSave remote:', e.message);
+      toast('Falha ao salvar no banco (vai tentar de novo)', 'inf');
+    }
+  })();
 }
 
-function toggleBanco() { document.getElementById('banco').classList.toggle('col'); }
+function toggleBanco() { document.getElementById('banco').classList.toggle('col'); }() { document.getElementById('banco').classList.toggle('col'); }
 
 function filtB(btn) {
   document.querySelectorAll('.bflt').forEach(b => b.classList.remove('on'));
@@ -1344,15 +1420,28 @@ function viewL(id) {
 
 function delL(id) {
   if (!confirm('Confirma exclusão do laudo?')) return;
+
+  // remove local primeiro (responsivo)
+  const existed = banco.find(l => l.id === id);
   banco = banco.filter(l => l.id !== id);
   localStorage.setItem('mb', JSON.stringify(banco));
   renderBanco();
   toast('Removido', 'ok');
-  fetch('/api/db?path=' + encodeURIComponent(`/rest/v1/laudos?id=eq.${id}`),
-    {method: 'DELETE'}).catch(() => {});
+
+  // tenta remover remoto (se tiver id do Supabase)
+  if (!existed) return;
+
+  (async () => {
+    try {
+      await dbFetch(`/rest/v1/laudos?id=eq.${id}`, { method: 'DELETE' });
+    } catch (e) {
+      toast('Não consegui excluir no servidor (apenas local)', 'inf');
+      console.warn('delete remote:', e.message);
+    }
+  })();
 }
 
-function doSave() {
+function doSave() {() {
   const cls = document.getElementById('scls').value;
   const obs = document.getElementById('sobs').value.trim();
   const txt = document.getElementById('lta').value || report;
@@ -1373,15 +1462,34 @@ function doSave() {
   closeM('m-save');
   document.getElementById('sobs').value = '';
   toast('Salvo no banco!', 'ok');
-  fetch('/api/db?path=' + encodeURIComponent('/rest/v1/laudos'), {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      exam: curExam, exam_name: curExam,
-      classification: cls, observation: obs, report_text: txt,
-      patient_name: pac.nome, patient_age: pac.idade, exam_date: pac.data
-    })
-  }).catch(() => {});
+
+  const payload = {
+    exam: curExam, exam_name: curExam,
+    classification: cls, observation: obs, report_text: txt,
+    patient_name: pac.nome, patient_age: pac.idade, exam_date: pac.data
+  };
+
+  // sincroniza no Supabase e atualiza o ID local para o ID real do banco
+  (async () => {
+    try {
+      const created = await dbFetch('/rest/v1/laudos', { method: 'POST', body: payload });
+      const row = Array.isArray(created) ? created[0] : created;
+
+      if (row?.id) {
+        const idx2 = banco.findIndex(l => l.txt === txt);
+        if (idx2 >= 0) {
+          banco[idx2].id = row.id;
+          banco[idx2].dt = row.created_at ? new Date(row.created_at).toLocaleDateString('pt-BR') : banco[idx2].dt;
+          localStorage.setItem('mb', JSON.stringify(banco));
+          renderBanco();
+        }
+      }
+    } catch (e) {
+      enqueuePending(payload);
+      toast('Falha ao salvar no servidor (vai tentar de novo)', 'inf');
+      console.warn('save remote:', e.message);
+    }
+  })();
 }
 
 // ═══════════════════════════════════════════════════════════════════
