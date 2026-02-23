@@ -15,18 +15,21 @@ export default async function handler(req, res) {
   }
 
   try {
-    const path    = req.query.path || '';
-    const method  = req.method;
-    const url     = `${supaUrl}${path}`;
+    const path   = req.query.path || '';
+    const method = req.method;
+    const url    = `${supaUrl}${path}`;
 
     const headers = {
-      'apikey': supaKey,
+      'apikey':        supaKey,
       'Authorization': `Bearer ${supaKey}`,
-      'Content-Type': 'application/json',
+      'Content-Type':  'application/json',
     };
 
     // POST: retorna o registro criado (para pegar o ID)
     if (method === 'POST') headers['Prefer'] = 'return=representation';
+
+    // GET: permite buscar mais de 100 linhas (limite padrão do Supabase)
+    if (method === 'GET') headers['Range'] = '0-999';
 
     const fetchOpts = { method, headers };
     if ((method === 'POST' || method === 'PATCH') && req.body) {
@@ -43,7 +46,9 @@ export default async function handler(req, res) {
     try { data = JSON.parse(text); } catch { data = text; }
 
     if (!r.ok) {
-      const msg = typeof data === 'object' ? (data?.message || data?.hint || JSON.stringify(data)) : data;
+      const msg = typeof data === 'object'
+        ? (data?.message || data?.hint || JSON.stringify(data))
+        : data;
       return res.status(r.status).json({ error: msg || r.statusText });
     }
 
@@ -53,3 +58,4 @@ export default async function handler(req, res) {
     return res.status(500).json({ error: e.message || 'Erro interno' });
   }
 }
+
