@@ -5,6 +5,9 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  // Nunca usar cache — sempre busca dados frescos do Supabase
+  res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate');
+  res.setHeader('Pragma', 'no-cache');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   const supaUrl = process.env.SUPABASE_URL;
@@ -23,6 +26,7 @@ export default async function handler(req, res) {
       'apikey':        supaKey,
       'Authorization': `Bearer ${supaKey}`,
       'Content-Type':  'application/json',
+      'Cache-Control': 'no-cache',
     };
 
     // POST: retorna o registro criado (para pegar o ID)
