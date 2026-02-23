@@ -14,8 +14,7 @@
   --blue:#4f8ef7;--blue2:#7eb3ff;--bdim:rgba(79,142,247,.13);
   --grn:#34d399;--gdim:rgba(52,211,153,.13);
   --red:#f87171;--rdim:rgba(248,113,113,.13);
-  --amb:#fbbf24;--adim:rgba(251,191,36,.13);
-  --pur:#7c3aed;--r:10px;
+  --amb:#fbbf24;--pur:#7c3aed;--r:10px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html,body{height:100%;overflow:hidden;}
@@ -26,9 +25,10 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
   padding:0 16px;background:var(--surf);border-bottom:1px solid var(--bdr);flex-shrink:0;}
 .logo{font-size:17px;font-weight:700;letter-spacing:-.5px;}
 .logo span{color:var(--blue2);}
+.logo b{color:var(--txt);}
 .hdr-r{display:flex;align-items:center;gap:8px;}
 .nav{display:flex;gap:2px;background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:3px;}
-.ntab{padding:5px 13px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;
+.ntab{padding:5px 14px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;
   border:none;background:transparent;color:var(--mut);font-family:inherit;transition:all .2s;white-space:nowrap;}
 .ntab.on{background:var(--blue);color:#fff;}
 .apill{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--card);
@@ -37,14 +37,11 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
 .dot{width:7px;height:7px;border-radius:50%;background:var(--mut);flex-shrink:0;}
 .dot.on{background:var(--grn);box-shadow:0 0 8px var(--grn);}
 
-/* EXAM BAR */
+/* EXAM BAR — lista flat sem separador */
 .ebar{height:52px;display:flex;align-items:center;gap:5px;padding:0 14px;
-  background:var(--surf);border-bottom:1px solid var(--bdr);overflow-x:auto;
-  overflow-y:hidden;scrollbar-width:none;flex-shrink:0;}
+  background:var(--surf);border-bottom:1px solid var(--bdr);
+  overflow-x:auto;overflow-y:hidden;scrollbar-width:none;flex-shrink:0;}
 .ebar::-webkit-scrollbar{display:none;}
-.esep{width:1px;height:22px;background:var(--bdr2);flex-shrink:0;margin:0 4px;}
-.egl{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
-  color:var(--mut);white-space:nowrap;flex-shrink:0;}
 .echip{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:18px;
   border:1px solid var(--bdr2);background:transparent;color:var(--mut2);font-size:11px;
   font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap;
@@ -57,12 +54,12 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
 .editor{display:flex;flex:1;overflow:hidden;min-height:0;}
 
 /* INPUT PANEL */
-.ipanel{width:290px;flex-shrink:0;border-right:1px solid var(--bdr);
+.ipanel{width:280px;flex-shrink:0;border-right:1px solid var(--bdr);
   display:flex;flex-direction:column;padding:12px;gap:9px;overflow-y:auto;}
 
 /* PACIENTE */
-.pac-box{background:var(--card);border:1px solid var(--bdr2);border-radius:10px;
-  padding:10px;display:flex;flex-direction:column;gap:7px;}
+.pac-box{background:var(--card);border:1px solid var(--bdr2);border-radius:10px;padding:10px;
+  display:flex;flex-direction:column;gap:7px;}
 .pac-title{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--mut);}
 .pac-row{display:flex;gap:6px;}
 .pac-field{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0;}
@@ -77,7 +74,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
 .input-box{background:var(--card);border:1px solid var(--bdr2);border-radius:10px;
   display:flex;flex-direction:column;transition:border-color .2s;}
 .input-box:focus-within{border-color:var(--blue);}
-.input-top{display:flex;align-items:flex-start;gap:0;}
+.input-top{display:flex;align-items:flex-start;}
 .iarea{flex:1;padding:10px 12px;border:none;outline:none;resize:none;background:transparent;
   color:var(--txt);font-family:'Sora',sans-serif;font-size:12px;line-height:1.6;}
 .iarea::placeholder{color:var(--mut);}
@@ -89,12 +86,12 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
   animation:pulse 1.5s infinite;}
 @keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,.4);}50%{box-shadow:0 0 0 8px rgba(248,113,113,0);}}
 .input-bottom{border-top:1px solid var(--bdr);padding:7px 10px;
-  display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  display:flex;align-items:center;gap:7px;}
 .attach-btn{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;
   border:1px solid var(--bdr2);background:transparent;color:var(--mut2);font-size:11px;
   font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
 .attach-btn:hover{background:var(--bdim);border-color:var(--blue);color:var(--blue2);}
-.attach-count{background:var(--blue);color:#fff;font-size:9px;font-weight:700;
+.attach-ct{background:var(--blue);color:#fff;font-size:9px;font-weight:700;
   padding:1px 5px;border-radius:8px;font-family:'JetBrains Mono',monospace;}
 .clr-btn{margin-left:auto;padding:3px 8px;border-radius:5px;background:transparent;
   border:1px solid var(--bdr);color:var(--mut);font-size:10px;cursor:pointer;
@@ -109,29 +106,29 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
 .thumb img{width:100%;height:100%;object-fit:cover;}
 .thumb-del{position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;
   background:rgba(0,0,0,.8);border:none;color:#fff;font-size:9px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;line-height:1;}
+  display:flex;align-items:center;justify-content:center;}
 .thumb-name{position:absolute;bottom:0;left:0;right:0;font-size:8px;color:#fff;
   background:rgba(0,0,0,.7);padding:2px 3px;text-align:center;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 
-/* PILLS */
-.ragpill{display:none;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;
+/* RAG */
+.rag-pill{display:none;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;
   background:var(--gdim);border:1px solid rgba(52,211,153,.25);font-size:10px;font-weight:600;color:var(--grn);}
-.ragpill.show{display:flex;}
+.rag-pill.show{display:flex;}
 
 /* BOTÕES */
 .gbtn{width:100%;padding:12px;border-radius:10px;
   background:linear-gradient(135deg,var(--blue),#6366f1);border:none;color:#fff;
   font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
   transition:all .2s;box-shadow:0 4px 18px rgba(79,142,247,.3);}
-.gbtn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 26px rgba(79,142,247,.45);}
+.gbtn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 24px rgba(79,142,247,.45);}
 .gbtn:disabled{opacity:.5;cursor:not-allowed;transform:none !important;}
-.mbtn{width:100%;padding:11px;border-radius:10px;
+.mbtn-gen{width:100%;padding:11px;border-radius:10px;
   background:linear-gradient(135deg,#7c3aed,#4f46e5);border:none;color:#fff;
   font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
   transition:all .2s;box-shadow:0 4px 18px rgba(124,58,237,.28);}
-.mbtn:hover:not(:disabled){transform:translateY(-1px);}
-.mbtn:disabled{opacity:.5;cursor:not-allowed;transform:none !important;}
+.mbtn-gen:hover:not(:disabled){transform:translateY(-1px);}
+.mbtn-gen:disabled{opacity:.5;cursor:not-allowed;transform:none !important;}
 
 /* LAUDO */
 .lpanel{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
@@ -158,7 +155,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
 
 /* BANCO */
 .banco{border-top:1px solid var(--bdr);flex-shrink:0;display:flex;flex-direction:column;
-  height:210px;transition:height .25s;}
+  height:200px;transition:height .25s;}
 .banco.col{height:40px;overflow:hidden;}
 .bhdr{display:flex;align-items:center;justify-content:space-between;height:40px;
   padding:0 14px;cursor:pointer;background:var(--surf);flex-shrink:0;}
@@ -167,11 +164,10 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
   padding:2px 8px;border-radius:10px;font-family:'JetBrains Mono',monospace;}
 .btog{font-size:11px;color:var(--mut);transition:transform .25s;}
 .banco.col .btog{transform:rotate(180deg);}
-.bbar{display:flex;align-items:center;gap:6px;padding:7px 14px;
-  border-bottom:1px solid var(--bdr);flex-shrink:0;flex-wrap:wrap;}
-.bsearch{padding:5px 10px;border-radius:7px;background:var(--card);border:1px solid var(--bdr2);
-  color:var(--txt);font-size:11px;font-family:inherit;outline:none;
-  transition:border-color .2s;flex:1;min-width:100px;}
+.bbar{display:flex;align-items:center;gap:6px;padding:7px 14px;border-bottom:1px solid var(--bdr);flex-shrink:0;}
+.bsearch{flex:1;padding:5px 10px;border-radius:7px;background:var(--card);
+  border:1px solid var(--bdr2);color:var(--txt);font-size:11px;font-family:inherit;
+  outline:none;transition:border-color .2s;min-width:80px;}
 .bsearch:focus{border-color:var(--blue);}
 .bsearch::placeholder{color:var(--mut);}
 .bflt{padding:4px 11px;border-radius:14px;font-size:10px;font-weight:700;cursor:pointer;
@@ -179,61 +175,27 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
 .bflt.on{background:var(--bdim);border-color:rgba(79,142,247,.35);color:var(--blue2);}
 .bcards{flex:1;overflow-x:auto;overflow-y:hidden;display:flex;gap:10px;
   padding:10px 14px;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent;}
-.lcard{flex-shrink:0;width:215px;background:var(--card);border:1px solid var(--bdr);
+.lcard{flex-shrink:0;width:210px;background:var(--card);border:1px solid var(--bdr);
   border-radius:var(--r);padding:11px;cursor:pointer;transition:border-color .18s;}
 .lcard:hover{border-color:var(--blue);}
-.lctop{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.lctop{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
 .tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;text-transform:uppercase;}
 .tn{background:var(--gdim);color:var(--grn);}
 .tp{background:var(--rdim);color:var(--red);}
-.lcpac{font-size:11px;font-weight:600;color:var(--blue2);margin-bottom:2px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.lcex{font-size:10px;color:var(--mut);font-family:'JetBrains Mono',monospace;margin-bottom:2px;}
+.lcex{font-size:10px;color:var(--mut);font-family:'JetBrains Mono',monospace;margin-bottom:3px;}
 .lcobs{font-size:10px;color:var(--amb);margin-bottom:3px;}
 .lcprev{font-size:11px;color:var(--mut2);line-height:1.4;overflow:hidden;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:6px;}
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:7px;}
 .lcdt{font-size:9px;color:var(--mut);font-family:'JetBrains Mono',monospace;}
-.lcbtns{display:flex;gap:4px;margin-top:6px;}
+.lcbtns{display:flex;gap:4px;margin-top:7px;}
 .lcbtn{flex:1;padding:4px;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;
-  border:1px solid var(--bdr);background:transparent;color:var(--mut);
-  font-family:inherit;transition:all .15s;}
+  border:1px solid var(--bdr);background:transparent;color:var(--mut);font-family:inherit;transition:all .15s;}
 .lcbtn:hover{background:var(--card2);color:var(--txt);}
 .lcbtn.dl:hover{background:var(--rdim);border-color:rgba(248,113,113,.3);color:var(--red);}
 .bempty{padding:20px;color:var(--mut);font-size:12px;text-align:center;line-height:1.8;}
 
-/* CONFIG */
-.cfgpage{display:none;flex:1;overflow-y:auto;padding:24px;}
-.ccard{background:var(--card);border:1px solid var(--bdr);border-radius:14px;
-  padding:20px;margin-bottom:16px;max-width:640px;}
-.cctitle{font-size:14px;font-weight:700;margin-bottom:4px;}
-.ccsub{font-size:12px;color:var(--mut);margin-bottom:16px;line-height:1.6;}
-.flbl{font-size:11px;font-weight:600;color:var(--mut2);margin-bottom:5px;display:block;}
-.finp{width:100%;padding:9px 12px;border-radius:8px;background:var(--card2);
-  border:1px solid var(--bdr2);color:var(--txt);font-size:13px;font-family:inherit;outline:none;}
-.finp:focus{border-color:var(--blue);}
-.fsel{width:100%;padding:9px 12px;border-radius:8px;background:var(--card2);
-  border:1px solid var(--bdr2);color:var(--txt);font-size:13px;font-family:inherit;
-  outline:none;cursor:pointer;}
-.fld{margin-bottom:12px;}
-.pilist{display:flex;flex-direction:column;gap:6px;}
-.piitem{display:flex;align-items:flex-start;gap:8px;padding:10px;
-  background:var(--card2);border:1px solid var(--bdr);border-radius:8px;}
-.pitxt{flex:1;font-size:12px;color:var(--mut2);line-height:1.5;}
-.pitag{font-size:9px;padding:2px 7px;border-radius:4px;background:var(--bdim);
-  color:var(--blue2);font-weight:700;white-space:nowrap;flex-shrink:0;}
-.pidel{padding:4px 8px;border-radius:5px;background:transparent;border:1px solid var(--bdr);
-  color:var(--mut);font-size:11px;cursor:pointer;font-family:inherit;
-  transition:all .15s;flex-shrink:0;}
-.pidel:hover{background:var(--rdim);border-color:var(--red);color:var(--red);}
-
 /* DASHBOARD */
 .dashpage{display:none;flex:1;overflow-y:auto;padding:20px 24px;}
-.dsbar{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
-.dsearch{flex:1;max-width:360px;padding:9px 14px;border-radius:9px;background:var(--card);
-  border:1px solid var(--bdr2);color:var(--txt);font-size:13px;font-family:inherit;outline:none;}
-.dsearch:focus{border-color:var(--blue);}
-.dsearch::placeholder{color:var(--mut);}
-.dlbl{font-size:11px;color:var(--mut);}
 .dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
 .dcard{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:16px;}
 .dcard-val{font-size:28px;font-weight:700;font-family:'JetBrains Mono',monospace;margin-bottom:2px;}
@@ -250,34 +212,49 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
 .chart-wrap{position:relative;height:200px;}
 .top-list{display:flex;flex-direction:column;gap:8px;}
 .top-item{display:flex;align-items:center;gap:10px;}
-.top-lbl{font-size:11px;color:var(--mut2);width:130px;flex-shrink:0;
+.top-lbl{font-size:11px;color:var(--mut2);width:140px;flex-shrink:0;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .top-bar-wrap{flex:1;height:8px;background:var(--card2);border-radius:4px;overflow:hidden;}
 .top-bar{height:100%;background:var(--blue);border-radius:4px;transition:width .6s;}
 .top-val{font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;
   color:var(--blue2);width:28px;text-align:right;flex-shrink:0;}
-.dpat-list{display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto;}
-.dpat-item{display:flex;align-items:center;justify-content:space-between;
-  padding:9px 12px;background:var(--card2);border:1px solid var(--bdr);
-  border-radius:8px;cursor:pointer;transition:border-color .15s;}
-.dpat-item:hover{border-color:var(--blue);}
-.dpat-name{font-size:12px;font-weight:600;color:var(--txt);}
-.dpat-meta{font-size:10px;color:var(--mut);}
+
+/* CONFIG */
+.cfgpage{display:none;flex:1;overflow-y:auto;padding:24px;}
+.ccard{background:var(--card);border:1px solid var(--bdr);border-radius:14px;
+  padding:20px;margin-bottom:16px;max-width:640px;}
+.cctitle{font-size:14px;font-weight:700;margin-bottom:4px;}
+.ccsub{font-size:12px;color:var(--mut);margin-bottom:16px;line-height:1.6;}
+.flbl{font-size:11px;font-weight:600;color:var(--mut2);margin-bottom:5px;display:block;}
+.finp{width:100%;padding:9px 12px;border-radius:8px;background:var(--card2);
+  border:1px solid var(--bdr2);color:var(--txt);font-size:13px;font-family:inherit;outline:none;}
+.finp:focus{border-color:var(--blue);}
+.fsel{width:100%;padding:9px 12px;border-radius:8px;background:var(--card2);
+  border:1px solid var(--bdr2);color:var(--txt);font-size:13px;font-family:inherit;outline:none;cursor:pointer;}
+.fld{margin-bottom:12px;}
+.pilist{display:flex;flex-direction:column;gap:6px;}
+.piitem{display:flex;align-items:flex-start;gap:8px;padding:10px;
+  background:var(--card2);border:1px solid var(--bdr);border-radius:8px;}
+.pitxt{flex:1;font-size:12px;color:var(--mut2);line-height:1.5;}
+.pitag{font-size:9px;padding:2px 7px;border-radius:4px;background:var(--bdim);
+  color:var(--blue2);font-weight:700;white-space:nowrap;flex-shrink:0;}
+.pidel{padding:4px 8px;border-radius:5px;background:transparent;border:1px solid var(--bdr);
+  color:var(--mut);font-size:11px;cursor:pointer;font-family:inherit;transition:all .15s;flex-shrink:0;}
+.pidel:hover{background:var(--rdim);border-color:var(--red);color:var(--red);}
 
 /* MODAIS */
-.ov{position:fixed;inset:0;background:rgba(0,0,0,.78);display:flex;
-  align-items:center;justify-content:center;z-index:1000;padding:16px;}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.78);display:flex;align-items:center;
+  justify-content:center;z-index:1000;padding:16px;}
 .ov.off{display:none;}
 .modal{background:var(--card);border:1px solid var(--bdr2);border-radius:16px;
-  padding:24px;width:100%;max-width:400px;}
+  padding:24px;width:100%;max-width:380px;}
 .mtitle{font-size:16px;font-weight:700;margin-bottom:4px;}
 .msub{font-size:12px;color:var(--mut);margin-bottom:18px;line-height:1.6;}
 .mbtns{display:flex;gap:8px;margin-top:18px;}
-.mmbtn{flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;
-  border:1px solid var(--bdr2);background:var(--card2);color:var(--mut);
-  font-family:inherit;transition:all .2s;}
-.mmbtn.pr{background:var(--blue);border-color:var(--blue);color:#fff;}
-.mmbtn.pr:hover{background:#3a78e0;}
+.mbtn{flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;
+  border:1px solid var(--bdr2);background:var(--card2);color:var(--mut);font-family:inherit;transition:all .2s;}
+.mbtn.pr{background:var(--blue);border-color:var(--blue);color:#fff;}
+.mbtn.pr:hover{background:#3a78e0;}
 
 /* TOAST */
 .toast{position:fixed;bottom:20px;right:16px;z-index:9999;padding:10px 16px;
@@ -298,11 +275,11 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
 
 /* MOBILE */
 .mnav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surf);
-  border-top:1px solid var(--bdr);height:52px;z-index:100;display:none;}
+  border-top:1px solid var(--bdr);height:52px;z-index:100;}
 .mntabs{display:flex;height:100%;}
 .mntab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:1px;font-size:9px;font-weight:600;color:var(--mut);cursor:pointer;
-  border:none;background:transparent;font-family:inherit;}
+  gap:1px;font-size:9px;font-weight:600;color:var(--mut);cursor:pointer;border:none;
+  background:transparent;font-family:inherit;}
 .mntab.on{color:var(--blue2);}
 .mntab .mi{font-size:17px;}
 @media(max-width:768px){
@@ -343,16 +320,16 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
   </div>
 </div>
 
-<!-- EXAM BAR -->
+<!-- EXAM BAR — todos os exames numa linha só, sem separador -->
 <div class="ebar" id="ebar"></div>
 
 <!-- MAIN -->
-<div class="main">
+<div class="main" id="main">
 
   <!-- ══ EDITOR ══ -->
   <div class="editor" id="pg-editor">
 
-    <!-- INPUT -->
+    <!-- INPUT PANEL -->
     <div class="ipanel">
 
       <!-- DADOS DO PACIENTE -->
@@ -378,17 +355,17 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
       <div class="input-box">
         <div class="input-top">
           <textarea class="iarea" id="ti" rows="6"
-            placeholder="Descreva os achados...&#10;&#10;Ex: litiase biliar 8mm&#10;Ex: hemangioma hepático 3,2cm&#10;Ex: abdome normal"></textarea>
+            placeholder="Descreva os achados...&#10;&#10;Ex: hemangioma hepático 3,2x1,5cm&#10;Ex: cálculo vesicular 8mm&#10;Ex: abdome normal"></textarea>
           <button class="vozbtn" id="vozbtn" onclick="toggleRec()" title="Gravar voz">🎙️</button>
         </div>
 
-        <!-- Thumbnails dos arquivos -->
+        <!-- Thumbnails dos arquivos anexados -->
         <div class="thumbs" id="thumbs" style="display:none;"></div>
 
         <div class="input-bottom">
           <button class="attach-btn" onclick="document.getElementById('fi').click()">
             📎 Anexar
-            <span class="attach-count" id="attach-ct" style="display:none;">0</span>
+            <span class="attach-ct" id="attach-ct" style="display:none;">0</span>
           </button>
           <input type="file" id="fi" accept="image/*,application/pdf" multiple
             style="display:none" onchange="onFiles(this)">
@@ -397,17 +374,17 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
         </div>
       </div>
 
-      <div class="ragpill" id="ragpill">🎯 <span id="ragtxt">Base encontrada</span></div>
+      <div class="rag-pill" id="rag-pill">🎯 <span id="rag-txt">Base encontrada</span></div>
 
       <button class="gbtn" id="gbtn" onclick="generate()">⚡ Gerar Laudo</button>
-      <button class="mbtn" id="mbtn" onclick="generateMulti()">🧩 Multi-Laudo</button>
+      <button class="mbtn-gen" id="mbtn" onclick="generateMulti()">🧩 Multi-Laudo</button>
     </div>
 
-    <!-- LAUDO -->
+    <!-- LAUDO PANEL -->
     <div class="lpanel">
       <div id="lempty">
         <div class="eico">🩻</div>
-        <div class="etxt">Preencha os dados do paciente,<br>selecione o exame e clique em<br><strong>⚡ Gerar Laudo</strong></div>
+        <div class="etxt">Selecione o exame na barra acima,<br>insira os achados e clique em<br><strong>⚡ Gerar Laudo</strong></div>
       </div>
       <div id="larea" style="display:none;flex:1;flex-direction:column;overflow:hidden;">
         <div class="ltbar">
@@ -436,15 +413,11 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
           font-size:13px;line-height:1.9;padding:20px 24px;overflow-y:auto;"></textarea>
       </div>
     </div>
-  </div>
+
+  </div><!-- /editor -->
 
   <!-- ══ DASHBOARD ══ -->
   <div class="dashpage" id="pg-dash">
-    <div class="dsbar">
-      <input class="dsearch" id="dsearch" placeholder="🔍 Buscar paciente, exame ou achado..."
-        oninput="renderDash()">
-      <span class="dlbl" id="dsearch-lbl"></span>
-    </div>
     <div class="dash-grid">
       <div class="dcard blue"><div class="dcard-val" id="d-total">0</div><div class="dcard-lbl">📋 Total Laudos</div></div>
       <div class="dcard grn"> <div class="dcard-val" id="d-norm">0</div> <div class="dcard-lbl">✅ Normais</div></div>
@@ -465,15 +438,9 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
         <div class="chart-wrap" style="height:180px;"><canvas id="chartBar"></canvas></div>
       </div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-      <div class="chart-card">
-        <div class="chart-title">🏆 Ranking de Exames</div>
-        <div class="top-list" id="toplist"></div>
-      </div>
-      <div class="chart-card">
-        <div class="chart-title">👤 Pacientes Recentes</div>
-        <div class="dpat-list" id="patlist"></div>
-      </div>
+    <div class="chart-card" style="margin-bottom:16px;">
+      <div class="chart-title">🏆 Ranking de Exames</div>
+      <div class="top-list" id="toplist"></div>
     </div>
   </div>
 
@@ -509,7 +476,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
         <div class="fld">
           <label class="flbl">Instrução</label>
           <textarea class="finp" id="ptxt" rows="3" style="resize:vertical;"
-            placeholder="Ex: Quando houver colelitíase, descreva: Vesícula biliar com imagem hiperecogênica de ___ mm com sombra acústica posterior..."></textarea>
+            placeholder="Ex: Quando houver colelitíase, use a frase: Vesícula biliar com imagem hiperecogênica de ___ mm com sombra acústica posterior..."></textarea>
         </div>
         <button class="gbtn" onclick="addPrompt()" style="padding:10px;font-size:13px;">➕ Adicionar Instrução</button>
       </div>
@@ -517,9 +484,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
     <div class="ccard">
       <div class="cctitle">📋 Instruções Salvas</div>
       <div class="ccsub">Carregadas do Supabase em qualquer dispositivo</div>
-      <div class="pilist" id="pilist">
-        <div style="color:var(--mut);font-size:12px;">Carregando...</div>
-      </div>
+      <div class="pilist" id="pilist"><div style="color:var(--mut);font-size:12px;">Nenhuma instrução salva.</div></div>
     </div>
   </div>
 
@@ -539,7 +504,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
       </div>
     </div>
     <div class="bcards" id="bcards">
-      <div class="bempty">Nenhum laudo ainda.<br>Gere e salve para construir o banco.</div>
+      <div class="bempty">Nenhum laudo ainda.<br>Gere e salve para construir seu banco.</div>
     </div>
   </div>
 
@@ -559,7 +524,7 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
 <div class="ov off" id="m-save">
   <div class="modal">
     <div class="mtitle">💾 Salvar no Banco</div>
-    <div class="msub">Cada laudo salvo melhora a precisão da IA nas próximas gerações</div>
+    <div class="msub">O banco alimenta o aprendizado da IA nas próximas gerações</div>
     <div class="fld">
       <label class="flbl">Classificação</label>
       <select class="fsel" id="scls">
@@ -568,13 +533,12 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
       </select>
     </div>
     <div class="fld">
-      <label class="flbl">Observação (descreva os achados principais)</label>
-      <input class="finp" id="sobs"
-        placeholder="Ex: hemangioma hepático seg VII 3,2cm | colelitíase 8mm...">
+      <label class="flbl">Observação (ajuda a IA a encontrar)</label>
+      <input class="finp" id="sobs" placeholder="Ex: hemangioma hepático, colelitíase 8mm...">
     </div>
     <div class="mbtns">
-      <button class="mmbtn" onclick="closeM('m-save')">Cancelar</button>
-      <button class="mmbtn pr" onclick="doSave()">💾 Salvar</button>
+      <button class="mbtn" onclick="closeM('m-save')">Cancelar</button>
+      <button class="mbtn pr" onclick="doSave()">💾 Salvar</button>
     </div>
   </div>
 </div>
@@ -582,29 +546,26 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-si
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════════
-//  EXAMES
-// ═══════════════════════════════════════════════════════════════════
-const EXAMS_MAIN = [
-  {id:'obstetrico',  label:'Obstétrico',           icon:'🤰'},
-  {id:'abdome',      label:'Abdome Total',          icon:'🫀'},
-  {id:'endovaginal', label:'Endovaginal',           icon:'🔬'},
-  {id:'tireoide',    label:'Tireoide c/ Doppler',   icon:'🦋'},
-  {id:'urinario',    label:'Rins e Vias Urinárias', icon:'💧'},
-  {id:'mamas',       label:'Mamas',                 icon:'🎗️'},
-  {id:'vascular',    label:'Vascular',              icon:'🩸'},
+// ═══════════════════════════════════════════════════════════
+//  EXAMES — lista flat, vascular incluído, sem separador
+// ═══════════════════════════════════════════════════════════
+const ALL_EXAMS = [
+  {id:'obstetrico',       label:'Obstétrico',           icon:'🤰'},
+  {id:'abdome',           label:'Abdome Total',          icon:'🫀'},
+  {id:'endovaginal',      label:'Endovaginal',           icon:'🔬'},
+  {id:'tireoide',         label:'Tireoide c/ Doppler',   icon:'🦋'},
+  {id:'urinario',         label:'Rins e Vias Urinárias', icon:'💧'},
+  {id:'mamas',            label:'Mamas',                 icon:'🎗️'},
+  {id:'vascular',         label:'Vascular',              icon:'🩸'},
+  {id:'prostata',         label:'Próstata',              icon:'🔵'},
+  {id:'cervical',         label:'Cervical',              icon:'🔴'},
+  {id:'partes_moles',     label:'Partes Moles',          icon:'🟡'},
+  {id:'parede_abdominal', label:'Parede Abdominal',      icon:'🟢'},
 ];
-const EXAMS_EXTRA = [
-  {id:'prostata',         label:'Próstata',         icon:'🔵'},
-  {id:'cervical',         label:'Cervical',         icon:'🔴'},
-  {id:'partes_moles',     label:'Partes Moles',     icon:'🟡'},
-  {id:'parede_abdominal', label:'Parede Abdominal', icon:'🟢'},
-];
-const ALL_EXAMS = [...EXAMS_MAIN, ...EXAMS_EXTRA];
 
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  TEMPLATES
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 const TPL = {
 obstetrico:`ULTRASSONOGRAFIA OBSTÉTRICA
 
@@ -721,8 +682,9 @@ prostata:`ULTRASSONOGRAFIA DA PRÓSTATA
 
 Próstata tópica, forma e contornos regulares.
 Dimensões: ___ x ___ x ___ cm. Volume: ___ cm³ (normal ≤ 30 cm³).
-Ecotextura homogênea, sem nodulações suspeitas ao ultrassom.
-Vesículas seminais de aspecto normal. Bexiga em repleção, paredes finas.
+Ecotextura homogênea, sem nodulações suspeitas.
+Vesículas seminais de aspecto normal.
+Bexiga em repleção, paredes finas.
 Resíduo pós-miccional: ___ mL.
 
 IMPRESSÃO DIAGNÓSTICA:
@@ -746,7 +708,7 @@ Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
 
 partes_moles:`ULTRASSONOGRAFIA DE PARTES MOLES
 
-Local: ___ | Lado: ___
+Local: ___ / Lado: ___
 
 Planos superficiais com ecotextura preservada.
 ___ (achado — dimensões, ecogenicidade, vascularização ao Doppler).
@@ -770,37 +732,35 @@ IMPRESSÃO DIAGNÓSTICA:
 Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
 };
 
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  ESTADO
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 let curExam     = 'abdome';
 let report      = '';
 let bfilt       = 'todos';
 let banco       = [];
 let prompts     = [];
-let fileList    = [];         // {name, base64, type, preview}
+let fileList    = [];
 let multiLaudos = [];
 let multiActive = 0;
 let recObj      = null;
 let isRec       = false;
 let charts      = {};
 
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  INIT
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 buildEbar();
 document.getElementById('pac-data').value = new Date().toISOString().split('T')[0];
 loadBanco();
 loadPrompts();
 
 function buildEbar() {
-  const bar = document.getElementById('ebar');
-  const chip = e =>
+  const bar  = document.getElementById('ebar');
+  bar.innerHTML = ALL_EXAMS.map(e =>
     `<button class="echip${e.id===curExam?' on':''}" onclick="setExam('${e.id}',this)">
-       <span style="font-size:13px">${e.icon}</span>${e.label}</button>`;
-  bar.innerHTML =
-    `<span class="egl">Principais</span>` + EXAMS_MAIN.map(chip).join('') +
-    `<div class="esep"></div><span class="egl">Complementares</span>` + EXAMS_EXTRA.map(chip).join('');
+       <span style="font-size:13px">${e.icon}</span>${e.label}</button>`
+  ).join('');
 }
 
 function setExam(id, btn) {
@@ -808,7 +768,7 @@ function setExam(id, btn) {
   document.querySelectorAll('.echip').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
   btn.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
-  document.getElementById('ragpill').classList.remove('show');
+  document.getElementById('rag-pill').classList.remove('show');
 }
 
 function getPaciente() {
@@ -825,9 +785,9 @@ function formatDataBR(iso) {
   return d && m && y ? `${d}/${m}/${y}` : iso;
 }
 
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  TABS
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 function goTab(t, btn) {
   document.querySelectorAll('.ntab').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
@@ -835,41 +795,37 @@ function goTab(t, btn) {
   document.getElementById('pg-dash').style.display   = t==='dash'   ? 'block' : 'none';
   document.getElementById('pg-config').style.display = t==='config' ? 'block' : 'none';
   document.getElementById('banco').style.display     = t==='editor' ? 'flex'  : 'none';
-  if (t==='dash') renderDash();
+  if (t === 'dash') renderDash();
 }
 
 function mNav(t, btn) {
   document.querySelectorAll('.mntab').forEach(b => b.classList.remove('on'));
   btn.classList.add('on');
-  document.getElementById('pg-editor').style.display = 'none';
-  document.getElementById('pg-dash').style.display   = 'none';
-  document.getElementById('pg-config').style.display = 'none';
-  document.getElementById('banco').style.display     = 'none';
-  if (t==='editor') {
+  ['pg-editor','pg-dash','pg-config','banco'].forEach(id =>
+    document.getElementById(id).style.display = 'none');
+  if (t === 'editor') {
     document.getElementById('pg-editor').style.display = 'flex';
     document.getElementById('banco').style.display     = 'flex';
-  } else if (t==='dash') {
+  } else if (t === 'dash') {
     document.getElementById('pg-dash').style.display = 'block'; renderDash();
-  } else if (t==='banco') {
+  } else if (t === 'banco') {
     document.getElementById('banco').style.display = 'flex';
     document.getElementById('banco').classList.remove('col');
-  } else if (t==='config') {
+  } else {
     document.getElementById('pg-config').style.display = 'block';
   }
 }
 
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  INPUT & ARQUIVOS
-// ═══════════════════════════════════════════════════════════════════
-function getInput() {
-  return document.getElementById('ti').value.trim();
-}
+// ═══════════════════════════════════════════════════════════
+function getInput() { return document.getElementById('ti').value.trim(); }
 
 function clearAll() {
   document.getElementById('ti').value = '';
   fileList = [];
   renderThumbs();
-  document.getElementById('ragpill').classList.remove('show');
+  document.getElementById('rag-pill').classList.remove('show');
 }
 
 function onFiles(input) {
@@ -877,7 +833,6 @@ function onFiles(input) {
   if (!files.length) return;
   let loaded = 0;
   files.forEach(f => {
-    // Evita duplicatas pelo nome
     if (fileList.find(x => x.name === f.name)) { loaded++; return; }
     const reader = new FileReader();
     reader.onload = e => {
@@ -889,58 +844,47 @@ function onFiles(input) {
       });
       if (++loaded === files.length) {
         renderThumbs();
-        toast(`${files.length} arquivo(s) adicionado(s)`, 'ok');
+        toast(`${fileList.length} arquivo(s) pronto(s)`, 'ok');
       }
     };
     reader.readAsDataURL(f);
   });
-  // Reseta input para permitir re-seleção do mesmo arquivo
   input.value = '';
 }
 
-function removeFile(idx) {
-  fileList.splice(idx, 1);
-  renderThumbs();
-}
+function removeFile(idx) { fileList.splice(idx, 1); renderThumbs(); }
 
 function renderThumbs() {
   const ct  = document.getElementById('attach-ct');
   const box = document.getElementById('thumbs');
   if (!fileList.length) {
-    ct.style.display  = 'none';
-    box.style.display = 'none';
-    box.innerHTML     = '';
-    return;
+    ct.style.display = 'none'; box.style.display = 'none'; box.innerHTML = ''; return;
   }
-  ct.style.display   = 'inline';
-  ct.textContent     = fileList.length;
-  box.style.display  = 'flex';
+  ct.style.display  = 'inline';
+  ct.textContent    = fileList.length;
+  box.style.display = 'flex';
   box.innerHTML = fileList.map((f, i) => `
     <div class="thumb">
       ${f.preview
         ? `<img src="${f.preview}" alt="${f.name}">`
         : `<span>📄</span><div class="thumb-name">${f.name}</div>`}
-      <button class="thumb-del" onclick="removeFile(${i})" title="Remover">✕</button>
+      <button class="thumb-del" onclick="removeFile(${i})">✕</button>
     </div>`).join('');
 }
 
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  VOZ
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 function toggleRec() {
   const SR = window.webkitSpeechRecognition || window.SpeechRecognition;
   if (!SR) { toast('Use Chrome para gravação de voz', 'err'); return; }
   const btn = document.getElementById('vozbtn');
   if (!isRec) {
     recObj = new SR();
-    recObj.lang = 'pt-BR';
-    recObj.continuous     = true;
-    recObj.interimResults = true;
+    recObj.lang = 'pt-BR'; recObj.continuous = true; recObj.interimResults = true;
     recObj.onstart = () => {
-      isRec = true;
-      btn.classList.add('live');
-      btn.textContent = '⏹️';
-      btn.title = 'Parar gravação';
+      isRec = true; btn.classList.add('live');
+      btn.textContent = '⏹️'; btn.title = 'Parar gravação';
     };
     recObj.onresult = e => {
       let t = '';
@@ -949,131 +893,113 @@ function toggleRec() {
       const ta = document.getElementById('ti');
       ta.value = (ta.value + ' ' + t).trimStart();
     };
-    recObj.onerror = e => {
-      toast('Erro no microfone: ' + e.error, 'err');
-      stopRec(btn);
-    };
-    recObj.onend = () => stopRec(btn);
+    recObj.onerror = () => stopRec(btn);
+    recObj.onend   = () => stopRec(btn);
     recObj.start();
-  } else {
-    recObj.stop();
-  }
+  } else { recObj.stop(); }
 }
-
 function stopRec(btn) {
-  isRec = false;
-  btn.classList.remove('live');
-  btn.textContent = '🎙️';
-  btn.title = 'Gravar voz';
+  isRec = false; btn.classList.remove('live');
+  btn.textContent = '🎙️'; btn.title = 'Gravar voz';
 }
 
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  RAG
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 async function ragSearch(query, exam) {
   try {
     const r = await fetch('/api/search', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({query, exam, limit: 5})
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({query, exam, limit:5})
     });
     if (!r.ok) return [];
     return (await r.json()).results || [];
   } catch { return []; }
 }
 
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  PROMPT
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 async function buildPrompt(input, exam) {
   const similar = await ragSearch(input || 'normal', exam);
-  const pill = document.getElementById('ragpill');
-
-  if (similar.length > 0) {
-    pill.classList.add('show');
-    document.getElementById('ragtxt').textContent =
-      `${similar.length} laudo(s) encontrado(s) no banco`;
-  } else {
-    pill.classList.remove('show');
-  }
+  const pill    = document.getElementById('rag-pill');
 
   let ragCtx = '';
   if (similar.length > 0) {
-    ragCtx = '\n\n════ LAUDOS DO DR. ROBERTO — REFERÊNCIA OBRIGATÓRIA ════\n';
-    ragCtx += 'COPIE as frases e estrutura abaixo PALAVRA POR PALAVRA para os mesmos achados.\n';
-    ragCtx += 'Adapte SOMENTE os valores fornecidos nesta consulta. NUNCA invente medidas.\n\n';
+    pill.classList.add('show');
+    document.getElementById('rag-txt').textContent =
+      `${similar.length} laudo(s) similar(es) encontrado(s) no banco`;
+    ragCtx  = '\n\n════ LAUDOS DO DR. ROBERTO PARA REFERÊNCIA ════\n';
+    ragCtx += 'Use o estilo, frases e padrão de conclusão EXATOS destes laudos.\n';
+    ragCtx += 'Adapte APENAS os dados do novo paciente. Não invente medidas.\n\n';
     similar.forEach((l, i) => {
       const tipo = l.classification === 'patologico' ? '⚠️ PATOLÓGICO' : '✅ NORMAL';
-      const obs  = l.observation ? ` | ${l.observation}` : '';
-      ragCtx += `[REF ${i+1} | ${tipo}${obs}]\n${l.report_text}\n\n`;
+      const obs  = l.obs || l.observation || '';
+      ragCtx += `[REFERÊNCIA ${i+1} | ${tipo}${obs ? ' | '+obs : ''}]\n`;
+      ragCtx += l.report_text + '\n\n';
     });
     ragCtx += '════ FIM DAS REFERÊNCIAS ════';
+  } else {
+    pill.classList.remove('show');
+    ragCtx = '\n\n[Banco vazio para este exame — usando template padrão]';
   }
 
   const pts  = prompts.filter(p => p.exam === exam || p.exam === 'geral');
   const pStr = pts.length
-    ? '\n\nINSTRUÇÕES FIXAS (SEMPRE APLICAR):\n' + pts.map(p => '- ' + p.txt).join('\n')
+    ? '\n\nINSTRUÇÕES FIXAS DO DR. ROBERTO:\n' + pts.map(p => '- ' + p.txt).join('\n')
     : '';
 
-  const hasFiles = fileList.length > 0;
-  const imgNote  = hasFiles
-    ? `\n\nARQUIVOS RECEBIDOS (${fileList.length}): Analise com atenção. ` +
-      'Extraia APENAS valores claramente visíveis nas imagens/PDFs. NUNCA invente medidas.'
+  const imgNote = fileList.length
+    ? `\n\nARQUIVOS RECEBIDOS (${fileList.length}): Extraia APENAS valores claramente visíveis. Nunca invente medidas.`
     : '';
 
   const sys =
-`Você é o assistente de laudos ultrassonográficos do Dr. Roberto Freire Margotti (CRM-BA 26929 | RQE: 21367).
+`Você é o assistente de laudos do Dr. Roberto Freire Margotti (CRM-BA 26929 | RQE: 21367).
 
-SAÍDA: Retorne APENAS o texto final do laudo. Zero explicações, raciocínio ou comentários externos.
-
-REGRAS ABSOLUTAS — VIOLAÇÃO NÃO É PERMITIDA:
-1. NUNCA invente medidas. Dado não fornecido = "___". Jamais estime valores.
-2. Copie as frases das referências PALAVRA POR PALAVRA para os mesmos achados.
-3. NUNCA use dados ou medidas de pacientes das referências — apenas o estilo.
-4. Mantenha EXATAMENTE o padrão de IMPRESSÃO DIAGNÓSTICA das referências.
-5. Para achados sem referência: use estilo sóbrio e técnico do Dr. Roberto.
-6. Assine sempre: Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`;
+REGRAS ABSOLUTAS:
+1. Retorne APENAS o texto do laudo. Sem explicações, análises ou comentários.
+2. NUNCA invente medidas — se não foi fornecida, use "___".
+3. NUNCA use dados de pacientes das referências — apenas o estilo e as frases.
+4. Se há referências no banco: copie as frases EXATAS para os mesmos achados.
+5. Mantenha o padrão exato da IMPRESSÃO DIAGNÓSTICA das referências.
+6. Assine: Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`;
 
   const userMsg =
-    `EXAME: ${exam}\n` +
-    `DADOS DO PACIENTE: ${input || '(ver imagens/arquivos)'}` +
+    `EXAME: ${exam}\nDADOS DO PACIENTE: ${input || 'analisar pelos arquivos'}` +
     ragCtx +
-    `\n\nTEMPLATE BASE (usar somente se banco vazio):\n${TPL[exam] || ''}` +
+    `\n\nTEMPLATE BASE (usar apenas se banco vazio):\n${TPL[exam] || ''}` +
     pStr + imgNote;
 
   return {sys, userMsg};
 }
 
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  CALL AI
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 async function callAI(sys, userMsg) {
   const body = {system: sys, userMsg};
   if (fileList.length > 0) {
     body.images = fileList.map(f => ({name: f.name, base64: f.base64, type: f.type}));
   }
   const r = await fetch('/api/generate', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify(body)
   });
   if (!r.ok) {
     const e = await r.json().catch(() => ({}));
-    throw new Error(e.error || `Erro ${r.status}: ${r.statusText}`);
+    throw new Error(e.error || r.statusText);
   }
-  const data = await r.json();
-  if (!data.content) throw new Error('Resposta vazia do servidor');
-  return data.content;
+  const d = await r.json();
+  if (!d.content) throw new Error('Resposta vazia do servidor');
+  return d.content;
 }
 
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  GERAR
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 async function generate() {
   const input = getInput();
-  if (!input && !fileList.length) {
-    toast('Descreva os achados ou anexe um arquivo', 'err'); return;
-  }
+  if (!input && !fileList.length) { toast('Insira os dados do exame', 'err'); return; }
   const btn = document.getElementById('gbtn');
   btn.disabled = true;
   btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span> Buscando...';
@@ -1090,17 +1016,16 @@ async function generate() {
     toast('Laudo gerado!', 'ok');
     autoSave(curExam, content);
   } catch (e) {
-    toast('Erro: ' + e.message, 'err');
-    console.error(e);
+    toast('Erro: ' + (e.message || 'Verifique a conexão'), 'err');
   } finally {
     btn.disabled = false;
     btn.innerHTML = '⚡ Gerar Laudo';
   }
 }
 
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 //  MULTI-LAUDO
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 async function generateMulti() {
   const input = getInput();
   if (!input && !fileList.length) { toast('Insira os dados', 'err'); return; }
@@ -1108,36 +1033,27 @@ async function generateMulti() {
   btn.disabled = true;
   btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span> Detectando...';
   try {
-    const detSys = 'Classificador médico. Responda APENAS com JSON array. Sem texto extra.';
-    const detMsg =
+    const detectSys = 'Classificador médico. Responda APENAS com JSON array. Sem texto extra.';
+    const detectMsg =
       `Quais exames ultrassonográficos estão neste texto?\n` +
-      `IDs: obstetrico,abdome,endovaginal,tireoide,urinario,mamas,vascular,prostata,cervical,partes_moles,parede_abdominal\n` +
-      `Texto: "${input}"\n` +
-      `Responda SOMENTE com array. Ex: ["tireoide","mamas"]`;
-
-    // Detecção sem arquivos — mais rápido
-    const tmpFiles = fileList;
-    fileList = [];
-    const raw = await callAI(detSys, detMsg);
-    fileList = tmpFiles;
-
+      `IDs válidos: obstetrico,abdome,endovaginal,tireoide,urinario,mamas,vascular,prostata,cervical,partes_moles,parede_abdominal\n` +
+      `Texto: "${input}"\nResponda SOMENTE com o array. Ex: ["tireoide","mamas"]`;
+    const savedFiles = fileList; fileList = [];
+    const raw = await callAI(detectSys, detectMsg);
+    fileList = savedFiles;
     const match = raw.match(/\[[\s\S]*?\]/);
-    if (!match) throw new Error('Formato inesperado na detecção');
+    if (!match) throw new Error('Não foi possível detectar os exames');
     const ids = JSON.parse(match[0]);
     if (!ids.length) { toast('Nenhum exame detectado', 'err'); return; }
-
     toast(`${ids.length} exame(s) detectado(s)`, 'inf');
     btn.innerHTML = `<span class="dots"><span></span><span></span><span></span></span> Gerando ${ids.length}...`;
-
     const results = await Promise.all(ids.map(async id => {
-      const info = ALL_EXAMS.find(e => e.id === id) || {id, label: id, icon: '📋'};
+      const info = ALL_EXAMS.find(e => e.id === id) || {id, label:id, icon:'📋'};
       const {sys, userMsg} = await buildPrompt(input, id);
       const txt = await callAI(sys, userMsg);
-      return {exam: id, label: info.label, icon: info.icon, text: txt};
+      return {exam:id, label:info.label, icon:info.icon, text:txt};
     }));
-
-    multiLaudos = results;
-    multiActive = 0;
+    multiLaudos = results; multiActive = 0;
     document.getElementById('lempty').style.display = 'none';
     document.getElementById('larea').style.display  = 'none';
     document.getElementById('mlarea').style.display = 'flex';
@@ -1146,7 +1062,6 @@ async function generateMulti() {
     multiLaudos.forEach(l => autoSave(l.exam, l.text));
   } catch (e) {
     toast('Erro: ' + e.message, 'err');
-    console.error(e);
   } finally {
     btn.disabled = false;
     btn.innerHTML = '🧩 Multi-Laudo';
@@ -1154,42 +1069,42 @@ async function generateMulti() {
 }
 
 function renderMLTabs() {
-  document.getElementById('mltabs').innerHTML = multiLaudos.map((l, i) =>
+  document.getElementById('mltabs').innerHTML = multiLaudos.map((l,i) =>
     `<button class="mltab${i===multiActive?' on':''}" onclick="switchML(${i})">${l.icon} ${l.label}</button>`
   ).join('');
   document.getElementById('mlta').value = multiLaudos[multiActive]?.text || '';
 }
 function switchML(i)  { multiActive = i; renderMLTabs(); }
-function copyML()     { navigator.clipboard.writeText(multiLaudos[multiActive]?.text || ''); toast('Copiado!', 'ok'); }
-function pdfML()      { const l = multiLaudos[multiActive]; if (l) makePDF(l.label, l.exam, l.text); }
-function saveAll()    { multiLaudos.forEach(l => autoSave(l.exam, l.text)); toast(`${multiLaudos.length} salvos!`, 'ok'); }
+function copyML()     { navigator.clipboard.writeText(multiLaudos[multiActive]?.text||''); toast('Copiado!','ok'); }
+function pdfML()      { const l=multiLaudos[multiActive]; if(l) makePDF(l.label,l.exam,l.text); }
+function saveAll()    { multiLaudos.forEach(l=>autoSave(l.exam,l.text)); toast(`${multiLaudos.length} salvos!`,'ok'); }
 
-// ═══════════════════════════════════════════════════════════════════
-//  AÇÕES LAUDO
-// ═══════════════════════════════════════════════════════════════════
-function copyL() {
-  navigator.clipboard.writeText(document.getElementById('lta').value || report);
-  toast('Copiado!', 'ok');
-}
-function editL() {
-  document.getElementById('lta').removeAttribute('readonly');
-  document.getElementById('lta').focus();
-  toast('Modo edição ativo', 'inf');
-}
-function pdfL() {
-  const info = ALL_EXAMS.find(e => e.id === curExam);
-  makePDF(info?.label || curExam, curExam, document.getElementById('lta').value || report);
-}
+// ═══════════════════════════════════════════════════════════
+//  AÇÕES DO LAUDO
+// ═══════════════════════════════════════════════════════════
+function copyL() { navigator.clipboard.writeText(document.getElementById('lta').value||report); toast('Copiado!','ok'); }
+function editL() { document.getElementById('lta').removeAttribute('readonly'); document.getElementById('lta').focus(); toast('Modo edição','inf'); }
+function pdfL()  { const info=ALL_EXAMS.find(e=>e.id===curExam); makePDF(info?.label||curExam,curExam,document.getElementById('lta').value||report); }
 
+// PDF COM CABEÇALHO PROFISSIONAL COMPLETO
 function makePDF(label, examId, txt) {
-  if (!txt) { toast('Nenhum laudo para exportar', 'err'); return; }
+  if (!txt) { toast('Nenhum laudo', 'err'); return; }
   const pac    = getPaciente();
   const dataBR = pac.data ? formatDataBR(pac.data) : new Date().toLocaleDateString('pt-BR');
-  const pacHeader = pac.nome ? `
-    <div class="ph">
-      <div class="ph-name">${pac.nome}</div>
-      <div class="ph-meta">${[pac.idade?'Idade: '+pac.idade:'', pac.data?'Data: '+dataBR:''].filter(Boolean).join(' &nbsp;|&nbsp; ')}</div>
-    </div>` : '';
+
+  // Cabeçalho do paciente — só mostra campos preenchidos
+  const linhasPac = [];
+  if (pac.nome)  linhasPac.push(`<div class="ph-row"><span class="ph-key">Paciente:</span><span class="ph-val">${pac.nome}</span></div>`);
+  if (pac.data)  linhasPac.push(`<div class="ph-row"><span class="ph-key">Data do Exame:</span><span class="ph-val">${dataBR}</span></div>`);
+  if (pac.idade) linhasPac.push(`<div class="ph-row"><span class="ph-key">Idade:</span><span class="ph-val">${pac.idade}</span></div>`);
+
+  const pacBlock = linhasPac.length
+    ? `<div class="pac-hdr">${linhasPac.join('')}</div>`
+    : '';
+
+  const nomeArq = pac.nome
+    ? pac.nome.toLowerCase().replace(/\s+/g,'-')
+    : examId;
 
   const html = `<!DOCTYPE html>
 <html lang="pt-BR"><head><meta charset="UTF-8">
@@ -1199,10 +1114,13 @@ body{font-family:Georgia,serif;max-width:720px;margin:40px auto;padding:20px 40p
 .h{border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:16px}
 .h h1{font-size:13px;font-weight:700;margin:0 0 3px;text-transform:uppercase;letter-spacing:1px}
 .h p{font-size:11px;color:#555;margin:0}
-.ph{background:#f8f9fa;border:1px solid #dee2e6;border-radius:6px;padding:10px 14px;margin-bottom:16px}
-.ph-name{font-size:15px;font-weight:700;color:#111;margin-bottom:2px}
-.ph-meta{font-size:11px;color:#666}
-pre{white-space:pre-wrap;font-family:Georgia,serif;font-size:13px}
+.pac-hdr{background:#f8f9fa;border:1px solid #dee2e6;border-radius:6px;
+  padding:10px 14px;margin-bottom:18px;}
+.ph-row{display:flex;gap:8px;margin-bottom:2px;}
+.ph-row:last-child{margin-bottom:0;}
+.ph-key{font-size:11px;font-weight:700;color:#555;min-width:110px;flex-shrink:0;}
+.ph-val{font-size:12px;font-weight:600;color:#111;}
+pre{white-space:pre-wrap;font-family:Georgia,serif;font-size:13px;}
 .f{border-top:1px solid #ccc;margin-top:40px;padding-top:10px;font-size:10px;color:#999}
 @media print{body{margin:20px 30px}}
 </style></head><body>
@@ -1210,76 +1128,62 @@ pre{white-space:pre-wrap;font-family:Georgia,serif;font-size:13px}
   <h1>${label}</h1>
   <p>Dr. Roberto Freire Margotti &middot; CRM-BA 26929 &middot; RQE: 21367 &middot; ${dataBR}</p>
 </div>
-${pacHeader}
+${pacBlock}
 <pre>${txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
 <div class="f">Margotti AI &middot; ${dataBR}</div>
 </body></html>`;
 
   const a = Object.assign(document.createElement('a'), {
-    href:     URL.createObjectURL(new Blob([html], {type: 'text/html'})),
-    download: `laudo-${examId}-${Date.now()}.html`
+    href:     URL.createObjectURL(new Blob([html], {type:'text/html'})),
+    download: `laudo-${nomeArq}-${Date.now()}.html`
   });
-  a.click();
-  URL.revokeObjectURL(a.href);
+  a.click(); URL.revokeObjectURL(a.href);
   toast('Baixado! Abra e imprima como PDF', 'ok');
 }
 
-// ═══════════════════════════════════════════════════════════════════
-//  BANCO
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+//  BANCO — IDÊNTICO AO MARGOTTI ORIGINAL
+// ═══════════════════════════════════════════════════════════
 async function loadBanco() {
   try {
-    const r = await fetch('/api/db?path=' + encodeURIComponent(
-      '/rest/v1/laudos?select=id,exam,classification,observation,report_text,patient_name,patient_age,exam_date,created_at' +
-      '&order=created_at.desc&limit=300'
-    ));
+    const r = await fetch('/api/db?path=' +
+      encodeURIComponent('/rest/v1/laudos?select=id,exam,classification,observation,report_text,created_at&order=created_at.desc&limit=200'));
     if (r.ok) {
       const data = await r.json();
       if (Array.isArray(data) && data.length) {
         banco = data.map(d => ({
-          id:    d.id,
-          exam:  d.exam || '',
-          cls:   d.classification || 'normal',
-          obs:   d.observation || '',
-          txt:   d.report_text || '',
-          nome:  d.patient_name || '',
-          idade: d.patient_age || '',
-          data:  d.exam_date || '',
-          dt:    d.created_at ? new Date(d.created_at).toLocaleDateString('pt-BR') : ''
+          id:  d.id,
+          exam: d.exam || '',
+          cls:  d.classification || 'normal',
+          obs:  d.observation || '',
+          txt:  d.report_text || '',
+          dt:   d.created_at ? new Date(d.created_at).toLocaleDateString('pt-BR') : ''
         }));
         localStorage.setItem('mb', JSON.stringify(banco));
-        renderBanco();
-        return;
+      } else {
+        banco = JSON.parse(localStorage.getItem('mb') || '[]');
       }
+    } else {
+      banco = JSON.parse(localStorage.getItem('mb') || '[]');
     }
-  } catch (e) {
-    console.warn('loadBanco fallback:', e.message);
+  } catch {
+    banco = JSON.parse(localStorage.getItem('mb') || '[]');
   }
-  banco = JSON.parse(localStorage.getItem('mb') || '[]');
   renderBanco();
 }
 
 function autoSave(examId, txt) {
   if (!txt || banco.find(b => b.txt === txt)) return;
-  const pac = getPaciente();
-  const item = {
-    id: Date.now(), exam: examId, cls: 'normal', obs: '', txt,
-    nome: pac.nome, idade: pac.idade, data: pac.data,
-    dt: new Date().toLocaleDateString('pt-BR')
-  };
+  const item = {id:Date.now(), exam:examId, cls:'normal', obs:'', txt,
+    dt:new Date().toLocaleDateString('pt-BR')};
   banco.unshift(item);
   localStorage.setItem('mb', JSON.stringify(banco));
   renderBanco();
-  // Salva no Supabase em background
   fetch('/api/db?path=' + encodeURIComponent('/rest/v1/laudos'), {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      exam: examId, exam_name: examId, classification: 'normal',
-      observation: '', report_text: txt,
-      patient_name: pac.nome, patient_age: pac.idade, exam_date: pac.data
-    })
-  }).catch(e => console.warn('autoSave remote:', e.message));
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({exam:examId, exam_name:examId,
+      classification:'normal', observation:'', report_text:txt})
+  }).catch(() => {});
 }
 
 function toggleBanco() { document.getElementById('banco').classList.toggle('col'); }
@@ -1292,29 +1196,25 @@ function filtB(btn) {
 }
 
 function renderBanco() {
-  const busca = (document.getElementById('bsearch')?.value || '').toLowerCase().trim();
-  let lista = bfilt === 'todos' ? banco : banco.filter(l => l.cls === bfilt);
+  const busca  = (document.getElementById('bsearch')?.value || '').toLowerCase().trim();
+  let   lista  = bfilt === 'todos' ? banco : banco.filter(l => l.cls === bfilt);
   if (busca) {
     lista = lista.filter(l =>
-      (l.nome||'').toLowerCase().includes(busca) ||
       (l.obs||'').toLowerCase().includes(busca)  ||
       (l.exam||'').toLowerCase().includes(busca) ||
-      (l.txt||'').toLowerCase().includes(busca)
-    );
+      (l.txt||'').toLowerCase().includes(busca));
   }
   document.getElementById('bct').textContent = banco.length;
   if (!lista.length) {
     document.getElementById('bcards').innerHTML =
-      '<div class="bempty">Nenhum laudo encontrado.</div>';
-    return;
+      '<div class="bempty">Nenhum laudo encontrado.</div>'; return;
   }
   document.getElementById('bcards').innerHTML = lista.map(l => `
     <div class="lcard" onclick="viewL(${l.id})">
       <div class="lctop">
         <span class="tag ${l.cls==='normal'?'tn':'tp'}">${l.cls==='normal'?'✅ Normal':'⚠️ Patol.'}</span>
-        <span class="lcdt">${l.data ? formatDataBR(l.data) : l.dt}</span>
+        <span class="lcdt">${l.dt}</span>
       </div>
-      ${l.nome ? `<div class="lcpac">👤 ${l.nome}${l.idade?' · '+l.idade:''}</div>` : ''}
       <div class="lcex">${l.exam}</div>
       ${l.obs ? `<div class="lcobs">📌 ${l.obs}</div>` : ''}
       <div class="lcprev">${(l.txt||'').substring(0,120)}...</div>
@@ -1329,15 +1229,11 @@ function viewL(id) {
   const l = banco.find(x => x.id === id);
   if (!l) return;
   report = l.txt;
-  if (l.nome)  document.getElementById('pac-nome').value  = l.nome;
-  if (l.idade) document.getElementById('pac-idade').value = l.idade;
-  if (l.data)  document.getElementById('pac-data').value  = l.data;
   document.getElementById('lta').value = l.txt;
   document.getElementById('lta').setAttribute('readonly', '');
   document.getElementById('lempty').style.display = 'none';
   document.getElementById('mlarea').style.display = 'none';
   document.getElementById('larea').style.display  = 'flex';
-  // Volta para o editor
   goTab('editor', document.querySelector('.ntab'));
   toast('Laudo carregado', 'inf');
 }
@@ -1349,62 +1245,38 @@ function delL(id) {
   renderBanco();
   toast('Removido', 'ok');
   fetch('/api/db?path=' + encodeURIComponent(`/rest/v1/laudos?id=eq.${id}`),
-    {method: 'DELETE'}).catch(() => {});
+    {method:'DELETE'}).catch(() => {});
 }
 
 function doSave() {
   const cls = document.getElementById('scls').value;
   const obs = document.getElementById('sobs').value.trim();
   const txt = document.getElementById('lta').value || report;
-  if (!txt) { toast('Nenhum laudo para salvar', 'err'); return; }
-  const pac = getPaciente();
-  const idx = banco.findIndex(l => l.txt === txt);
-  if (idx >= 0) {
-    Object.assign(banco[idx], {cls, obs, nome: pac.nome, idade: pac.idade, data: pac.data});
-  } else {
-    banco.unshift({
-      id: Date.now(), exam: curExam, cls, obs, txt,
-      nome: pac.nome, idade: pac.idade, data: pac.data,
-      dt: new Date().toLocaleDateString('pt-BR')
-    });
-  }
+  if (!txt) { toast('Nenhum laudo', 'err'); return; }
+  const ex = banco.findIndex(l => l.txt === txt);
+  if (ex >= 0) { banco[ex].cls = cls; banco[ex].obs = obs; }
+  else banco.unshift({id:Date.now(), exam:curExam, cls, obs, txt,
+    dt:new Date().toLocaleDateString('pt-BR')});
   localStorage.setItem('mb', JSON.stringify(banco));
   renderBanco();
   closeM('m-save');
   document.getElementById('sobs').value = '';
   toast('Salvo no banco!', 'ok');
   fetch('/api/db?path=' + encodeURIComponent('/rest/v1/laudos'), {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      exam: curExam, exam_name: curExam,
-      classification: cls, observation: obs, report_text: txt,
-      patient_name: pac.nome, patient_age: pac.idade, exam_date: pac.data
-    })
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({exam:curExam, exam_name:curExam,
+      classification:cls, observation:obs, report_text:txt})
   }).catch(() => {});
 }
 
-// ═══════════════════════════════════════════════════════════════════
-//  DASHBOARD
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+//  DASHBOARD — usa banco existente, sem alterar DB
+// ═══════════════════════════════════════════════════════════
 function renderDash() {
-  const busca    = (document.getElementById('dsearch')?.value || '').toLowerCase().trim();
-  const filtrado = busca
-    ? banco.filter(l =>
-        (l.nome||'').toLowerCase().includes(busca) ||
-        (l.obs||'').toLowerCase().includes(busca)  ||
-        (l.exam||'').toLowerCase().includes(busca) ||
-        (l.txt||'').toLowerCase().includes(busca))
-    : banco;
-
-  document.getElementById('dsearch-lbl').textContent = busca
-    ? `${filtrado.length} resultado(s) para "${busca}"`
-    : '';
-
-  const total = filtrado.length;
-  const norm  = filtrado.filter(l => l.cls === 'normal').length;
-  const pat   = filtrado.filter(l => l.cls === 'patologico').length;
-  const tipos = new Set(filtrado.map(l => l.exam).filter(Boolean)).size;
+  const total = banco.length;
+  const norm  = banco.filter(l => l.cls === 'normal').length;
+  const pat   = banco.filter(l => l.cls === 'patologico').length;
+  const tipos = new Set(banco.map(l => l.exam).filter(Boolean)).size;
 
   document.getElementById('d-total').textContent = total;
   document.getElementById('d-norm').textContent  = norm;
@@ -1413,115 +1285,87 @@ function renderDash() {
 
   // Por exame
   const byExam = {};
-  filtrado.forEach(l => { if (l.exam) byExam[l.exam] = (byExam[l.exam] || 0) + 1; });
+  banco.forEach(l => { if (l.exam) byExam[l.exam] = (byExam[l.exam]||0)+1; });
   const examLabels = Object.keys(byExam).map(id => {
     const e = ALL_EXAMS.find(x => x.id === id);
     return e ? `${e.icon} ${e.label}` : id;
   });
 
   // Por mês (últimos 6)
-  const now    = new Date();
-  const months = Array.from({length: 6}, (_, i) => {
-    const d = new Date(now.getFullYear(), now.getMonth() - 5 + i, 1);
-    return {label: d.toLocaleDateString('pt-BR', {month:'short', year:'2-digit'}),
-      y: d.getFullYear(), m: d.getMonth()};
+  const now = new Date();
+  const months = Array.from({length:6},(_,i) => {
+    const d = new Date(now.getFullYear(), now.getMonth()-5+i, 1);
+    return {label:d.toLocaleDateString('pt-BR',{month:'short',year:'2-digit'}),
+      y:d.getFullYear(), m:d.getMonth()};
   });
-  const byMonth = months.map(({y, m}) =>
-    filtrado.filter(l => {
-      const dt = l.data ? new Date(l.data + 'T12:00:00') : null;
-      if (dt) return dt.getFullYear() === y && dt.getMonth() === m;
+  const byMonth = months.map(({y,m}) =>
+    banco.filter(l => {
       if (!l.dt) return false;
       const p = l.dt.split('/');
-      return p.length === 3 && parseInt(p[1])-1 === m && parseInt(p[2]) === y % 100;
+      return p.length===3 && parseInt(p[1])-1===m && parseInt('20'+p[2])===y;
     }).length
   );
 
   const CDEF = {
-    responsive: true, maintainAspectRatio: false,
-    plugins: {legend: {labels: {color: '#8098cc', font: {family: 'Sora', size: 11}}}},
-    scales: {
-      x: {ticks: {color: '#5a6e99', font: {family: 'Sora', size: 10}}, grid: {color: 'rgba(99,140,255,.07)'}},
-      y: {ticks: {color: '#5a6e99', font: {family: 'Sora', size: 10}}, grid: {color: 'rgba(99,140,255,.07)'}}
+    responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#8098cc',font:{family:'Sora',size:11}}}},
+    scales:{
+      x:{ticks:{color:'#5a6e99',font:{family:'Sora',size:10}},grid:{color:'rgba(99,140,255,.07)'}},
+      y:{ticks:{color:'#5a6e99',font:{family:'Sora',size:10}},grid:{color:'rgba(99,140,255,.07)'}}
     }
   };
 
   if (charts.donut) charts.donut.destroy();
-  charts.donut = new Chart(document.getElementById('chartDonut'), {
-    type: 'doughnut',
-    data: {labels: ['Normais', 'Patológicos'],
-      datasets: [{data: [norm, pat],
-        backgroundColor: ['rgba(52,211,153,.7)', 'rgba(248,113,113,.7)'],
-        borderColor: ['#34d399', '#f87171'], borderWidth: 2}]},
-    options: {responsive: true, maintainAspectRatio: false,
-      plugins: {legend: {labels: {color: '#8098cc', font: {family: 'Sora', size: 11}}}}}
+  charts.donut = new Chart(document.getElementById('chartDonut'),{
+    type:'doughnut',
+    data:{labels:['Normais','Patológicos'],
+      datasets:[{data:[norm,pat],
+        backgroundColor:['rgba(52,211,153,.7)','rgba(248,113,113,.7)'],
+        borderColor:['#34d399','#f87171'],borderWidth:2}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:'#8098cc',font:{family:'Sora',size:11}}}}}
   });
 
   if (charts.line) charts.line.destroy();
-  charts.line = new Chart(document.getElementById('chartLine'), {
-    type: 'line',
-    data: {labels: months.map(m => m.label),
-      datasets: [{label: 'Laudos', data: byMonth,
-        borderColor: '#4f8ef7', backgroundColor: 'rgba(79,142,247,.15)',
-        tension: .4, pointBackgroundColor: '#4f8ef7', fill: true}]},
-    options: {...CDEF, plugins: {legend: {display: false}}}
+  charts.line = new Chart(document.getElementById('chartLine'),{
+    type:'line',
+    data:{labels:months.map(m=>m.label),
+      datasets:[{label:'Laudos',data:byMonth,
+        borderColor:'#4f8ef7',backgroundColor:'rgba(79,142,247,.15)',
+        tension:.4,pointBackgroundColor:'#4f8ef7',fill:true}]},
+    options:{...CDEF,plugins:{legend:{display:false}}}
   });
 
   if (charts.bar) charts.bar.destroy();
-  charts.bar = new Chart(document.getElementById('chartBar'), {
-    type: 'bar',
-    data: {labels: examLabels,
-      datasets: [{label: 'Laudos', data: Object.values(byExam),
-        backgroundColor: 'rgba(79,142,247,.6)', borderColor: '#4f8ef7',
-        borderWidth: 1, borderRadius: 5}]},
-    options: {...CDEF, plugins: {legend: {display: false}},
-      scales: {
-        x: {ticks: {color: '#5a6e99', font: {family: 'Sora', size: 9}}, grid: {color: 'rgba(99,140,255,.07)'}},
-        y: {ticks: {color: '#5a6e99', font: {family: 'Sora', size: 10}}, grid: {color: 'rgba(99,140,255,.07)'}}
+  charts.bar = new Chart(document.getElementById('chartBar'),{
+    type:'bar',
+    data:{labels:examLabels,
+      datasets:[{label:'Laudos',data:Object.values(byExam),
+        backgroundColor:'rgba(79,142,247,.6)',borderColor:'#4f8ef7',
+        borderWidth:1,borderRadius:5}]},
+    options:{...CDEF,plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:'#5a6e99',font:{family:'Sora',size:9}},grid:{color:'rgba(99,140,255,.07)'}},
+        y:{ticks:{color:'#5a6e99',font:{family:'Sora',size:10}},grid:{color:'rgba(99,140,255,.07)'}}
       }}
   });
 
   // Ranking
-  const sorted = Object.entries(byExam).sort((a, b) => b[1] - a[1]);
-  const maxv   = sorted[0]?.[1] || 1;
-  document.getElementById('toplist').innerHTML = sorted.slice(0, 8).map(([id, ct]) => {
-    const e = ALL_EXAMS.find(x => x.id === id);
+  const sorted = Object.entries(byExam).sort((a,b)=>b[1]-a[1]);
+  const maxv   = sorted[0]?.[1]||1;
+  document.getElementById('toplist').innerHTML = sorted.slice(0,10).map(([id,ct]) => {
+    const e = ALL_EXAMS.find(x=>x.id===id);
     return `<div class="top-item">
-      <div class="top-lbl">${e ? e.icon+' '+e.label : id}</div>
+      <div class="top-lbl">${e?e.icon+' '+e.label:id}</div>
       <div class="top-bar-wrap"><div class="top-bar" style="width:${Math.round(ct/maxv*100)}%"></div></div>
       <div class="top-val">${ct}</div>
     </div>`;
-  }).join('') || '<div style="color:var(--mut);font-size:12px">Nenhum dado.</div>';
-
-  // Pacientes recentes
-  const pacientes = filtrado
-    .filter(l => l.nome)
-    .sort((a, b) => (b.data || b.dt || '').localeCompare(a.data || a.dt || ''))
-    .reduce((acc, l) => {
-      if (!acc.find(x => x.nome === l.nome)) acc.push(l);
-      return acc;
-    }, [])
-    .slice(0, 10);
-
-  document.getElementById('patlist').innerHTML = pacientes.length
-    ? pacientes.map(l => `
-      <div class="dpat-item" onclick="searchPaciente('${l.nome.replace(/'/g, "\\'")}')">
-        <div>
-          <div class="dpat-name">👤 ${l.nome}</div>
-          <div class="dpat-meta">${l.exam}${l.data?' · '+formatDataBR(l.data):l.dt?' · '+l.dt:''}${l.idade?' · '+l.idade:''}</div>
-        </div>
-        <span class="tag ${l.cls==='normal'?'tn':'tp'}">${l.cls==='normal'?'✅':'⚠️'}</span>
-      </div>`).join('')
-    : '<div style="color:var(--mut);font-size:12px">Nenhum paciente com nome registrado.</div>';
+  }).join('') || '<div style="color:var(--mut);font-size:12px">Nenhum dado ainda.</div>';
 }
 
-function searchPaciente(nome) {
-  document.getElementById('dsearch').value = nome;
-  renderDash();
-}
-
-// ═══════════════════════════════════════════════════════════════════
-//  INSTRUÇÕES
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+//  INSTRUÇÕES — IDÊNTICO AO MARGOTTI ORIGINAL
+// ═══════════════════════════════════════════════════════════
 function unlock() {
   if (document.getElementById('pwdinp').value === 'margotti') {
     document.getElementById('lockform').style.display = 'none';
@@ -1537,19 +1381,17 @@ async function addPrompt() {
   const e = document.getElementById('pexam').value;
   const t = document.getElementById('ptxt').value.trim();
   if (!t) { toast('Digite a instrução', 'err'); return; }
-  let newId = Date.now();
   try {
     const r = await fetch('/api/db?path=' + encodeURIComponent('/rest/v1/instrucoes'), {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({exam: e, texto: t})
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({exam:e, texto:t})
     });
     const data = await r.json();
-    if (Array.isArray(data) && data[0]?.id) newId = data[0].id;
-  } catch (err) {
-    console.warn('addPrompt remote:', err.message);
+    const newId = Array.isArray(data) && data[0] ? data[0].id : Date.now();
+    prompts.push({id:newId, exam:e, txt:t});
+  } catch {
+    prompts.push({id:Date.now(), exam:e, txt:t});
   }
-  prompts.push({id: newId, exam: e, txt: t});
   localStorage.setItem('mp', JSON.stringify(prompts));
   document.getElementById('ptxt').value = '';
   renderPrompts();
@@ -1561,7 +1403,7 @@ function delPrompt(id) {
   localStorage.setItem('mp', JSON.stringify(prompts));
   renderPrompts();
   fetch('/api/db?path=' + encodeURIComponent(`/rest/v1/instrucoes?id=eq.${id}`),
-    {method: 'DELETE'}).catch(() => {});
+    {method:'DELETE'}).catch(() => {});
   toast('Removida', 'ok');
 }
 
@@ -1572,24 +1414,24 @@ async function loadPrompts() {
     if (r.ok) {
       const data = await r.json();
       if (Array.isArray(data) && data.length) {
-        prompts = data.map(d => ({id: d.id, exam: d.exam, txt: d.texto}));
+        prompts = data.map(d => ({id:d.id, exam:d.exam, txt:d.texto}));
         localStorage.setItem('mp', JSON.stringify(prompts));
-        renderPrompts();
-        return;
+      } else {
+        prompts = JSON.parse(localStorage.getItem('mp') || '[]');
       }
+    } else {
+      prompts = JSON.parse(localStorage.getItem('mp') || '[]');
     }
-  } catch (e) {
-    console.warn('loadPrompts fallback:', e.message);
+  } catch {
+    prompts = JSON.parse(localStorage.getItem('mp') || '[]');
   }
-  prompts = JSON.parse(localStorage.getItem('mp') || '[]');
   renderPrompts();
 }
 
 function renderPrompts() {
   const el = document.getElementById('pilist');
   if (!prompts.length) {
-    el.innerHTML = '<div style="color:var(--mut);font-size:12px">Nenhuma instrução cadastrada.</div>';
-    return;
+    el.innerHTML = '<div style="color:var(--mut);font-size:12px">Nenhuma instrução salva.</div>'; return;
   }
   el.innerHTML = prompts.map(p => `
     <div class="piitem">
@@ -1599,24 +1441,21 @@ function renderPrompts() {
     </div>`).join('');
 }
 
-// ═══════════════════════════════════════════════════════════════════
-//  MODAIS
-// ═══════════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+//  MODAIS & TOAST
+// ═══════════════════════════════════════════════════════════
 function openM(id)  { document.getElementById(id).classList.remove('off'); }
 function closeM(id) { document.getElementById(id).classList.add('off'); }
 document.querySelectorAll('.ov').forEach(o =>
-  o.addEventListener('click', e => { if (e.target === o) o.classList.add('off'); }));
+  o.addEventListener('click', e => { if (e.target===o) o.classList.add('off'); }));
 
-// ═══════════════════════════════════════════════════════════════════
-//  TOAST
-// ═══════════════════════════════════════════════════════════════════
 let toastTimer;
-function toast(msg, type = 'inf') {
+function toast(msg, type='inf') {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.className   = `toast show ${type}`;
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => t.classList.remove('show'), 4000);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
 }
 </script>
 </body>
