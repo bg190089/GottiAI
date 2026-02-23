@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Margotti AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#080d18;--surf:#0d1426;--card:#111b30;--card2:#162038;
+  --bdr:rgba(99,140,255,.1);--bdr2:rgba(99,140,255,.22);
+  --txt:#dce8ff;--mut:#5a6e99;--mut2:#8098cc;
+  --blue:#4f8ef7;--blue2:#7eb3ff;--bdim:rgba(79,142,247,.13);
+  --grn:#34d399;--gdim:rgba(52,211,153,.13);
+  --red:#f87171;--rdim:rgba(248,113,113,.13);
+  --amb:#fbbf24;--adim:rgba(251,191,36,.13);
+  --pur:#7c3aed;--r:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--txt);font-size:13px;}
+
+/* HEADER */
+.hdr{height:52px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;background:var(--surf);border-bottom:1px solid var(--bdr);flex-shrink:0;}
+.logo{font-size:17px;font-weight:700;letter-spacing:-.5px;}
+.logo span{color:var(--blue2);}
+.hdr-r{display:flex;align-items:center;gap:8px;}
+.nav{display:flex;gap:2px;background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:3px;}
+.ntab{padding:5px 13px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;
+  border:none;background:transparent;color:var(--mut);font-family:inherit;transition:all .2s;white-space:nowrap;}
+.ntab.on{background:var(--blue);color:#fff;}
+.apill{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--card);
+  border:1px solid var(--bdr2);border-radius:8px;color:var(--mut2);font-size:11px;
+  font-weight:600;cursor:pointer;font-family:inherit;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--mut);flex-shrink:0;}
+.dot.on{background:var(--grn);box-shadow:0 0 8px var(--grn);}
+
+/* EXAM BAR */
+.ebar{height:52px;display:flex;align-items:center;gap:5px;padding:0 14px;
+  background:var(--surf);border-bottom:1px solid var(--bdr);overflow-x:auto;
+  overflow-y:hidden;scrollbar-width:none;flex-shrink:0;}
+.ebar::-webkit-scrollbar{display:none;}
+.esep{width:1px;height:22px;background:var(--bdr2);flex-shrink:0;margin:0 4px;}
+.egl{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+  color:var(--mut);white-space:nowrap;flex-shrink:0;}
+.echip{display:flex;align-items:center;gap:5px;padding:5px 12px;border-radius:18px;
+  border:1px solid var(--bdr2);background:transparent;color:var(--mut2);font-size:11px;
+  font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap;
+  transition:all .18s;flex-shrink:0;}
+.echip:hover{background:var(--bdim);color:var(--blue2);}
+.echip.on{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:600;}
+
+/* LAYOUT */
+.main{display:flex;flex-direction:column;height:calc(100vh - 104px);overflow:hidden;}
+.editor{display:flex;flex:1;overflow:hidden;min-height:0;}
+
+/* INPUT PANEL */
+.ipanel{width:290px;flex-shrink:0;border-right:1px solid var(--bdr);
+  display:flex;flex-direction:column;padding:12px;gap:9px;overflow-y:auto;}
+
+/* PACIENTE */
+.pac-box{background:var(--card);border:1px solid var(--bdr2);border-radius:10px;
+  padding:10px;display:flex;flex-direction:column;gap:7px;}
+.pac-title{font-size:9px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--mut);}
+.pac-row{display:flex;gap:6px;}
+.pac-field{display:flex;flex-direction:column;gap:3px;flex:1;min-width:0;}
+.pac-lbl{font-size:9px;font-weight:600;color:var(--mut);text-transform:uppercase;letter-spacing:.8px;}
+.pac-inp{width:100%;padding:6px 9px;border-radius:7px;background:var(--card2);
+  border:1px solid var(--bdr2);color:var(--txt);font-size:12px;font-family:inherit;
+  outline:none;transition:border-color .2s;}
+.pac-inp:focus{border-color:var(--blue);}
+.pac-inp::placeholder{color:var(--mut);}
+
+/* INPUT UNIFICADO */
+.input-box{background:var(--card);border:1px solid var(--bdr2);border-radius:10px;
+  display:flex;flex-direction:column;transition:border-color .2s;}
+.input-box:focus-within{border-color:var(--blue);}
+.input-top{display:flex;align-items:flex-start;gap:0;}
+.iarea{flex:1;padding:10px 12px;border:none;outline:none;resize:none;background:transparent;
+  color:var(--txt);font-family:'Sora',sans-serif;font-size:12px;line-height:1.6;}
+.iarea::placeholder{color:var(--mut);}
+.vozbtn{width:34px;height:34px;margin:7px 7px 0 0;border-radius:8px;border:1px solid var(--bdr2);
+  background:transparent;color:var(--mut2);font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.vozbtn:hover{background:var(--bdim);border-color:var(--blue);}
+.vozbtn.live{background:var(--rdim);border-color:var(--red);color:var(--red);
+  animation:pulse 1.5s infinite;}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,.4);}50%{box-shadow:0 0 0 8px rgba(248,113,113,0);}}
+.input-bottom{border-top:1px solid var(--bdr);padding:7px 10px;
+  display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.attach-btn{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:7px;
+  border:1px solid var(--bdr2);background:transparent;color:var(--mut2);font-size:11px;
+  font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s;white-space:nowrap;}
+.attach-btn:hover{background:var(--bdim);border-color:var(--blue);color:var(--blue2);}
+.attach-count{background:var(--blue);color:#fff;font-size:9px;font-weight:700;
+  padding:1px 5px;border-radius:8px;font-family:'JetBrains Mono',monospace;}
+.clr-btn{margin-left:auto;padding:3px 8px;border-radius:5px;background:transparent;
+  border:1px solid var(--bdr);color:var(--mut);font-size:10px;cursor:pointer;
+  font-family:inherit;transition:all .15s;}
+.clr-btn:hover{color:var(--red);border-color:var(--red);}
+
+/* THUMBNAILS */
+.thumbs{display:flex;gap:5px;flex-wrap:wrap;padding:0 10px 8px;}
+.thumb{position:relative;width:52px;height:52px;border-radius:7px;overflow:hidden;
+  border:1px solid var(--bdr2);background:var(--card2);
+  display:flex;align-items:center;justify-content:center;font-size:18px;}
+.thumb img{width:100%;height:100%;object-fit:cover;}
+.thumb-del{position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;
+  background:rgba(0,0,0,.8);border:none;color:#fff;font-size:9px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;line-height:1;}
+.thumb-name{position:absolute;bottom:0;left:0;right:0;font-size:8px;color:#fff;
+  background:rgba(0,0,0,.7);padding:2px 3px;text-align:center;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* PILLS */
+.ragpill{display:none;align-items:center;gap:5px;padding:5px 10px;border-radius:7px;
+  background:var(--gdim);border:1px solid rgba(52,211,153,.25);font-size:10px;font-weight:600;color:var(--grn);}
+.ragpill.show{display:flex;}
+
+/* BOTÕES */
+.gbtn{width:100%;padding:12px;border-radius:10px;
+  background:linear-gradient(135deg,var(--blue),#6366f1);border:none;color:#fff;
+  font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:all .2s;box-shadow:0 4px 18px rgba(79,142,247,.3);}
+.gbtn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 26px rgba(79,142,247,.45);}
+.gbtn:disabled{opacity:.5;cursor:not-allowed;transform:none !important;}
+.mbtn{width:100%;padding:11px;border-radius:10px;
+  background:linear-gradient(135deg,#7c3aed,#4f46e5);border:none;color:#fff;
+  font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;
+  transition:all .2s;box-shadow:0 4px 18px rgba(124,58,237,.28);}
+.mbtn:hover:not(:disabled){transform:translateY(-1px);}
+.mbtn:disabled{opacity:.5;cursor:not-allowed;transform:none !important;}
+
+/* LAUDO */
+.lpanel{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
+.ltbar{display:flex;align-items:center;justify-content:space-between;
+  padding:9px 14px;border-bottom:1px solid var(--bdr);flex-shrink:0;flex-wrap:wrap;gap:6px;}
+.ltlbl{font-size:10px;font-weight:700;letter-spacing:1.2px;color:var(--mut);text-transform:uppercase;}
+.lacts{display:flex;gap:5px;flex-wrap:wrap;}
+.abtn{padding:5px 10px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;
+  border:1px solid var(--bdr2);background:var(--card);color:var(--mut2);
+  transition:all .2s;font-family:inherit;}
+.abtn:hover{border-color:var(--blue);color:var(--blue2);}
+.abtn.sv{background:var(--gdim);border-color:rgba(52,211,153,.3);color:var(--grn);}
+.abtn.sv:hover{background:var(--grn);color:#000;}
+#lempty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;}
+.eico{font-size:44px;opacity:.12;}
+.etxt{font-size:13px;text-align:center;line-height:1.9;color:var(--mut);}
+#lta{flex:1;width:100%;border:none;outline:none;resize:none;background:var(--bg);
+  color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:13px;
+  line-height:1.9;padding:20px 24px;overflow-y:auto;}
+.mltab{padding:5px 12px;border-radius:16px;font-size:11px;font-weight:600;cursor:pointer;
+  border:1px solid var(--bdr2);background:var(--card);color:var(--mut2);
+  font-family:inherit;transition:all .2s;white-space:nowrap;}
+.mltab.on{background:linear-gradient(135deg,#7c3aed,#4f46e5);border-color:#7c3aed;color:#fff;}
+
+/* BANCO */
+.banco{border-top:1px solid var(--bdr);flex-shrink:0;display:flex;flex-direction:column;
+  height:210px;transition:height .25s;}
+.banco.col{height:40px;overflow:hidden;}
+.bhdr{display:flex;align-items:center;justify-content:space-between;height:40px;
+  padding:0 14px;cursor:pointer;background:var(--surf);flex-shrink:0;}
+.btitle{font-size:12px;font-weight:600;}
+.bbadge{background:var(--bdim);color:var(--blue2);font-size:10px;font-weight:700;
+  padding:2px 8px;border-radius:10px;font-family:'JetBrains Mono',monospace;}
+.btog{font-size:11px;color:var(--mut);transition:transform .25s;}
+.banco.col .btog{transform:rotate(180deg);}
+.bbar{display:flex;align-items:center;gap:6px;padding:7px 14px;
+  border-bottom:1px solid var(--bdr);flex-shrink:0;flex-wrap:wrap;}
+.bsearch{padding:5px 10px;border-radius:7px;background:var(--card);border:1px solid var(--bdr2);
+  color:var(--txt);font-size:11px;font-family:inherit;outline:none;
+  transition:border-color .2s;flex:1;min-width:100px;}
+.bsearch:focus{border-color:var(--blue);}
+.bsearch::placeholder{color:var(--mut);}
+.bflt{padding:4px 11px;border-radius:14px;font-size:10px;font-weight:700;cursor:pointer;
+  border:1px solid var(--bdr);background:transparent;color:var(--mut);font-family:inherit;transition:all .2s;}
+.bflt.on{background:var(--bdim);border-color:rgba(79,142,247,.35);color:var(--blue2);}
+.bcards{flex:1;overflow-x:auto;overflow-y:hidden;display:flex;gap:10px;
+  padding:10px 14px;scrollbar-width:thin;scrollbar-color:var(--bdr2) transparent;}
+.lcard{flex-shrink:0;width:215px;background:var(--card);border:1px solid var(--bdr);
+  border-radius:var(--r);padding:11px;cursor:pointer;transition:border-color .18s;}
+.lcard:hover{border-color:var(--blue);}
+.lctop{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;}
+.tag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:10px;text-transform:uppercase;}
+.tn{background:var(--gdim);color:var(--grn);}
+.tp{background:var(--rdim);color:var(--red);}
+.lcpac{font-size:11px;font-weight:600;color:var(--blue2);margin-bottom:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.lcex{font-size:10px;color:var(--mut);font-family:'JetBrains Mono',monospace;margin-bottom:2px;}
+.lcobs{font-size:10px;color:var(--amb);margin-bottom:3px;}
+.lcprev{font-size:11px;color:var(--mut2);line-height:1.4;overflow:hidden;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:6px;}
+.lcdt{font-size:9px;color:var(--mut);font-family:'JetBrains Mono',monospace;}
+.lcbtns{display:flex;gap:4px;margin-top:6px;}
+.lcbtn{flex:1;padding:4px;border-radius:6px;font-size:10px;font-weight:600;cursor:pointer;
+  border:1px solid var(--bdr);background:transparent;color:var(--mut);
+  font-family:inherit;transition:all .15s;}
+.lcbtn:hover{background:var(--card2);color:var(--txt);}
+.lcbtn.dl:hover{background:var(--rdim);border-color:rgba(248,113,113,.3);color:var(--red);}
+.bempty{padding:20px;color:var(--mut);font-size:12px;text-align:center;line-height:1.8;}
+
+/* CONFIG */
+.cfgpage{display:none;flex:1;overflow-y:auto;padding:24px;}
+.ccard{background:var(--card);border:1px solid var(--bdr);border-radius:14px;
+  padding:20px;margin-bottom:16px;max-width:640px;}
+.cctitle{font-size:14px;font-weight:700;margin-bottom:4px;}
+.ccsub{font-size:12px;color:var(--mut);margin-bottom:16px;line-height:1.6;}
+.flbl{font-size:11px;font-weight:600;color:var(--mut2);margin-bottom:5px;display:block;}
+.finp{width:100%;padding:9px 12px;border-radius:8px;background:var(--card2);
+  border:1px solid var(--bdr2);color:var(--txt);font-size:13px;font-family:inherit;outline:none;}
+.finp:focus{border-color:var(--blue);}
+.fsel{width:100%;padding:9px 12px;border-radius:8px;background:var(--card2);
+  border:1px solid var(--bdr2);color:var(--txt);font-size:13px;font-family:inherit;
+  outline:none;cursor:pointer;}
+.fld{margin-bottom:12px;}
+.pilist{display:flex;flex-direction:column;gap:6px;}
+.piitem{display:flex;align-items:flex-start;gap:8px;padding:10px;
+  background:var(--card2);border:1px solid var(--bdr);border-radius:8px;}
+.pitxt{flex:1;font-size:12px;color:var(--mut2);line-height:1.5;}
+.pitag{font-size:9px;padding:2px 7px;border-radius:4px;background:var(--bdim);
+  color:var(--blue2);font-weight:700;white-space:nowrap;flex-shrink:0;}
+.pidel{padding:4px 8px;border-radius:5px;background:transparent;border:1px solid var(--bdr);
+  color:var(--mut);font-size:11px;cursor:pointer;font-family:inherit;
+  transition:all .15s;flex-shrink:0;}
+.pidel:hover{background:var(--rdim);border-color:var(--red);color:var(--red);}
+
+/* DASHBOARD */
+.dashpage{display:none;flex:1;overflow-y:auto;padding:20px 24px;}
+.dsbar{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;}
+.dsearch{flex:1;max-width:360px;padding:9px 14px;border-radius:9px;background:var(--card);
+  border:1px solid var(--bdr2);color:var(--txt);font-size:13px;font-family:inherit;outline:none;}
+.dsearch:focus{border-color:var(--blue);}
+.dsearch::placeholder{color:var(--mut);}
+.dlbl{font-size:11px;color:var(--mut);}
+.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.dcard{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:16px;}
+.dcard-val{font-size:28px;font-weight:700;font-family:'JetBrains Mono',monospace;margin-bottom:2px;}
+.dcard-lbl{font-size:11px;color:var(--mut);font-weight:600;}
+.dcard.blue .dcard-val{color:var(--blue2);}
+.dcard.grn  .dcard-val{color:var(--grn);}
+.dcard.red  .dcard-val{color:var(--red);}
+.dcard.amb  .dcard-val{color:var(--amb);}
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.chart-card{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:16px;}
+.chart-card.full{grid-column:1/-1;}
+.chart-title{font-size:12px;font-weight:700;color:var(--mut2);margin-bottom:14px;
+  text-transform:uppercase;letter-spacing:.8px;}
+.chart-wrap{position:relative;height:200px;}
+.top-list{display:flex;flex-direction:column;gap:8px;}
+.top-item{display:flex;align-items:center;gap:10px;}
+.top-lbl{font-size:11px;color:var(--mut2);width:130px;flex-shrink:0;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.top-bar-wrap{flex:1;height:8px;background:var(--card2);border-radius:4px;overflow:hidden;}
+.top-bar{height:100%;background:var(--blue);border-radius:4px;transition:width .6s;}
+.top-val{font-size:11px;font-weight:700;font-family:'JetBrains Mono',monospace;
+  color:var(--blue2);width:28px;text-align:right;flex-shrink:0;}
+.dpat-list{display:flex;flex-direction:column;gap:6px;max-height:300px;overflow-y:auto;}
+.dpat-item{display:flex;align-items:center;justify-content:space-between;
+  padding:9px 12px;background:var(--card2);border:1px solid var(--bdr);
+  border-radius:8px;cursor:pointer;transition:border-color .15s;}
+.dpat-item:hover{border-color:var(--blue);}
+.dpat-name{font-size:12px;font-weight:600;color:var(--txt);}
+.dpat-meta{font-size:10px;color:var(--mut);}
+
+/* MODAIS */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.78);display:flex;
+  align-items:center;justify-content:center;z-index:1000;padding:16px;}
+.ov.off{display:none;}
+.modal{background:var(--card);border:1px solid var(--bdr2);border-radius:16px;
+  padding:24px;width:100%;max-width:400px;}
+.mtitle{font-size:16px;font-weight:700;margin-bottom:4px;}
+.msub{font-size:12px;color:var(--mut);margin-bottom:18px;line-height:1.6;}
+.mbtns{display:flex;gap:8px;margin-top:18px;}
+.mmbtn{flex:1;padding:10px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;
+  border:1px solid var(--bdr2);background:var(--card2);color:var(--mut);
+  font-family:inherit;transition:all .2s;}
+.mmbtn.pr{background:var(--blue);border-color:var(--blue);color:#fff;}
+.mmbtn.pr:hover{background:#3a78e0;}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:16px;z-index:9999;padding:10px 16px;
+  border-radius:10px;font-size:12px;font-weight:600;max-width:calc(100vw - 32px);
+  transform:translateY(60px);opacity:0;transition:all .3s;pointer-events:none;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.ok{background:var(--grn);color:#000;}
+.toast.err{background:var(--red);color:#fff;}
+.toast.inf{background:var(--blue);color:#fff;}
+.dots{display:inline-flex;gap:3px;align-items:center;}
+.dots span{width:5px;height:5px;border-radius:50%;background:currentColor;animation:dd .8s infinite;}
+.dots span:nth-child(2){animation-delay:.15s;}
+.dots span:nth-child(3){animation-delay:.3s;}
+@keyframes dd{0%,80%,100%{opacity:.3;transform:scale(.7);}40%{opacity:1;transform:scale(1);}}
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--bdr2);border-radius:4px;}
+
+/* MOBILE */
+.mnav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--surf);
+  border-top:1px solid var(--bdr);height:52px;z-index:100;display:none;}
+.mntabs{display:flex;height:100%;}
+.mntab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:1px;font-size:9px;font-weight:600;color:var(--mut);cursor:pointer;
+  border:none;background:transparent;font-family:inherit;}
+.mntab.on{color:var(--blue2);}
+.mntab .mi{font-size:17px;}
+@media(max-width:768px){
+  html,body{overflow:auto;height:auto;}
+  .main{height:auto;overflow:visible;}
+  .editor{flex-direction:column;}
+  .ipanel{width:100%;border-right:none;border-bottom:1px solid var(--bdr);}
+  .lpanel{min-height:55vh;}
+  #lta{min-height:50vh;}
+  .banco{height:auto;}
+  .banco.col{height:40px;max-height:40px;overflow:hidden;}
+  .bcards{flex-direction:column;overflow-x:hidden;overflow-y:auto;max-height:55vh;}
+  .lcard{width:100%;}
+  .nav{display:none;}
+  .mnav{display:block;}
+  body{padding-bottom:52px;}
+  .dash-grid{grid-template-columns:repeat(2,1fr);}
+  .charts-row{grid-template-columns:1fr;}
+  .chart-card.full{grid-column:auto;}
+  .dashpage{padding:14px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="logo"><span>Margotti</span><b>AI</b></div>
+  <div class="hdr-r">
+    <div class="nav">
+      <button class="ntab on"  onclick="goTab('editor',this)">📝 Editor</button>
+      <button class="ntab"     onclick="goTab('dash',this)">📊 Dashboard</button>
+      <button class="ntab"     onclick="goTab('config',this)">⚙️ Config</button>
+    </div>
+    <button class="apill">
+      <span class="dot on"></span><span>Claude</span>
+    </button>
+  </div>
+</div>
+
+<!-- EXAM BAR -->
+<div class="ebar" id="ebar"></div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- ══ EDITOR ══ -->
+  <div class="editor" id="pg-editor">
+
+    <!-- INPUT -->
+    <div class="ipanel">
+
+      <!-- DADOS DO PACIENTE -->
+      <div class="pac-box">
+        <div class="pac-title">👤 Dados do Paciente</div>
+        <div class="pac-field">
+          <div class="pac-lbl">Nome</div>
+          <input class="pac-inp" id="pac-nome" type="text" placeholder="Nome completo" autocomplete="off">
+        </div>
+        <div class="pac-row">
+          <div class="pac-field">
+            <div class="pac-lbl">Idade</div>
+            <input class="pac-inp" id="pac-idade" type="text" placeholder="Ex: 45a">
+          </div>
+          <div class="pac-field">
+            <div class="pac-lbl">Data</div>
+            <input class="pac-inp" id="pac-data" type="date" style="color-scheme:dark;">
+          </div>
+        </div>
+      </div>
+
+      <!-- INPUT UNIFICADO: texto + voz + arquivos -->
+      <div class="input-box">
+        <div class="input-top">
+          <textarea class="iarea" id="ti" rows="6"
+            placeholder="Descreva os achados...&#10;&#10;Ex: litiase biliar 8mm&#10;Ex: hemangioma hepático 3,2cm&#10;Ex: abdome normal"></textarea>
+          <button class="vozbtn" id="vozbtn" onclick="toggleRec()" title="Gravar voz">🎙️</button>
+        </div>
+
+        <!-- Thumbnails dos arquivos -->
+        <div class="thumbs" id="thumbs" style="display:none;"></div>
+
+        <div class="input-bottom">
+          <button class="attach-btn" onclick="document.getElementById('fi').click()">
+            📎 Anexar
+            <span class="attach-count" id="attach-ct" style="display:none;">0</span>
+          </button>
+          <input type="file" id="fi" accept="image/*,application/pdf" multiple
+            style="display:none" onchange="onFiles(this)">
+          <span style="font-size:10px;color:var(--mut);">JPG · PNG · PDF</span>
+          <button class="clr-btn" onclick="clearAll()">✕ Limpar</button>
+        </div>
+      </div>
+
+      <div class="ragpill" id="ragpill">🎯 <span id="ragtxt">Base encontrada</span></div>
+
+      <button class="gbtn" id="gbtn" onclick="generate()">⚡ Gerar Laudo</button>
+      <button class="mbtn" id="mbtn" onclick="generateMulti()">🧩 Multi-Laudo</button>
+    </div>
+
+    <!-- LAUDO -->
+    <div class="lpanel">
+      <div id="lempty">
+        <div class="eico">🩻</div>
+        <div class="etxt">Preencha os dados do paciente,<br>selecione o exame e clique em<br><strong>⚡ Gerar Laudo</strong></div>
+      </div>
+      <div id="larea" style="display:none;flex:1;flex-direction:column;overflow:hidden;">
+        <div class="ltbar">
+          <div class="ltlbl">📄 Laudo</div>
+          <div class="lacts">
+            <button class="abtn" onclick="copyL()">📋 Copiar</button>
+            <button class="abtn" onclick="editL()">✏️ Editar</button>
+            <button class="abtn" onclick="pdfL()">📥 PDF</button>
+            <button class="abtn sv" onclick="openM('m-save')">💾 Salvar</button>
+          </div>
+        </div>
+        <textarea id="lta" readonly placeholder="Laudo aparecerá aqui..."></textarea>
+      </div>
+      <div id="mlarea" style="display:none;flex:1;flex-direction:column;overflow:hidden;">
+        <div class="ltbar">
+          <div class="ltlbl">🧩 Multi-Laudo</div>
+          <div id="mltabs" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
+          <div class="lacts">
+            <button class="abtn" onclick="copyML()">📋 Copiar</button>
+            <button class="abtn" onclick="pdfML()">📥 PDF</button>
+            <button class="abtn sv" onclick="saveAll()">💾 Salvar Todos</button>
+          </div>
+        </div>
+        <textarea id="mlta" readonly style="flex:1;width:100%;border:none;outline:none;resize:none;
+          background:var(--bg);color:var(--txt);font-family:'JetBrains Mono',monospace;
+          font-size:13px;line-height:1.9;padding:20px 24px;overflow-y:auto;"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DASHBOARD ══ -->
+  <div class="dashpage" id="pg-dash">
+    <div class="dsbar">
+      <input class="dsearch" id="dsearch" placeholder="🔍 Buscar paciente, exame ou achado..."
+        oninput="renderDash()">
+      <span class="dlbl" id="dsearch-lbl"></span>
+    </div>
+    <div class="dash-grid">
+      <div class="dcard blue"><div class="dcard-val" id="d-total">0</div><div class="dcard-lbl">📋 Total Laudos</div></div>
+      <div class="dcard grn"> <div class="dcard-val" id="d-norm">0</div> <div class="dcard-lbl">✅ Normais</div></div>
+      <div class="dcard red"> <div class="dcard-val" id="d-pat">0</div>  <div class="dcard-lbl">⚠️ Patológicos</div></div>
+      <div class="dcard amb"> <div class="dcard-val" id="d-tipos">0</div><div class="dcard-lbl">🩻 Tipos de Exame</div></div>
+    </div>
+    <div class="charts-row">
+      <div class="chart-card">
+        <div class="chart-title">Normal vs Patológico</div>
+        <div class="chart-wrap"><canvas id="chartDonut"></canvas></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">Laudos por Mês</div>
+        <div class="chart-wrap"><canvas id="chartLine"></canvas></div>
+      </div>
+      <div class="chart-card full">
+        <div class="chart-title">Por Tipo de Exame</div>
+        <div class="chart-wrap" style="height:180px;"><canvas id="chartBar"></canvas></div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div class="chart-card">
+        <div class="chart-title">🏆 Ranking de Exames</div>
+        <div class="top-list" id="toplist"></div>
+      </div>
+      <div class="chart-card">
+        <div class="chart-title">👤 Pacientes Recentes</div>
+        <div class="dpat-list" id="patlist"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CONFIG ══ -->
+  <div class="cfgpage" id="pg-config">
+    <div class="ccard">
+      <div class="cctitle">🔐 Instruções Personalizadas</div>
+      <div class="ccsub">Aplicadas em toda geração. Salvas no Supabase — disponíveis em qualquer dispositivo.<br>Senha: <code>margotti</code></div>
+      <div id="lockform">
+        <input class="finp" id="pwdinp" type="password" placeholder="Senha..."
+          onkeydown="if(event.key==='Enter')unlock()">
+        <button class="gbtn" onclick="unlock()" style="margin-top:10px;padding:10px;font-size:13px;">🔓 Desbloquear</button>
+      </div>
+      <div id="unlocked" style="display:none;">
+        <div style="color:var(--grn);font-size:12px;margin-bottom:14px;">✅ Painel desbloqueado</div>
+        <div class="fld">
+          <label class="flbl">Exame</label>
+          <select class="fsel" id="pexam">
+            <option value="geral">⭐ Geral (todos os exames)</option>
+            <option value="obstetrico">🤰 Obstétrico</option>
+            <option value="abdome">🫀 Abdome Total</option>
+            <option value="endovaginal">🔬 Endovaginal</option>
+            <option value="tireoide">🦋 Tireoide</option>
+            <option value="urinario">💧 Urinário</option>
+            <option value="mamas">🎗️ Mamas</option>
+            <option value="vascular">🩸 Vascular</option>
+            <option value="prostata">🔵 Próstata</option>
+            <option value="cervical">🔴 Cervical</option>
+            <option value="partes_moles">🟡 Partes Moles</option>
+            <option value="parede_abdominal">🟢 Parede Abdominal</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label class="flbl">Instrução</label>
+          <textarea class="finp" id="ptxt" rows="3" style="resize:vertical;"
+            placeholder="Ex: Quando houver colelitíase, descreva: Vesícula biliar com imagem hiperecogênica de ___ mm com sombra acústica posterior..."></textarea>
+        </div>
+        <button class="gbtn" onclick="addPrompt()" style="padding:10px;font-size:13px;">➕ Adicionar Instrução</button>
+      </div>
+    </div>
+    <div class="ccard">
+      <div class="cctitle">📋 Instruções Salvas</div>
+      <div class="ccsub">Carregadas do Supabase em qualquer dispositivo</div>
+      <div class="pilist" id="pilist">
+        <div style="color:var(--mut);font-size:12px;">Carregando...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BANCO -->
+  <div class="banco col" id="banco">
+    <div class="bhdr" onclick="toggleBanco()">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span>🗂</span><span class="btitle">Banco de Laudos</span>
+        <span class="bbadge" id="bct">0</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;" onclick="event.stopPropagation()">
+        <input class="bsearch" id="bsearch" placeholder="🔍 Buscar..." oninput="renderBanco()">
+        <button class="bflt on" data-f="todos"      onclick="filtB(this)">Todos</button>
+        <button class="bflt"    data-f="normal"     onclick="filtB(this)">Normais</button>
+        <button class="bflt"    data-f="patologico" onclick="filtB(this)">Patol.</button>
+        <span class="btog">▼</span>
+      </div>
+    </div>
+    <div class="bcards" id="bcards">
+      <div class="bempty">Nenhum laudo ainda.<br>Gere e salve para construir o banco.</div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- MOBILE NAV -->
+<div class="mnav">
+  <div class="mntabs">
+    <button class="mntab on" onclick="mNav('editor',this)"><span class="mi">📝</span>Editor</button>
+    <button class="mntab"    onclick="mNav('dash',this)">  <span class="mi">📊</span>Stats</button>
+    <button class="mntab"    onclick="mNav('banco',this)"> <span class="mi">🗂</span>Banco</button>
+    <button class="mntab"    onclick="mNav('config',this)"><span class="mi">⚙️</span>Config</button>
+  </div>
+</div>
+
+<!-- MODAL SALVAR -->
+<div class="ov off" id="m-save">
+  <div class="modal">
+    <div class="mtitle">💾 Salvar no Banco</div>
+    <div class="msub">Cada laudo salvo melhora a precisão da IA nas próximas gerações</div>
+    <div class="fld">
+      <label class="flbl">Classificação</label>
+      <select class="fsel" id="scls">
+        <option value="normal">✅ Normal</option>
+        <option value="patologico">⚠️ Patológico</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label class="flbl">Observação (descreva os achados principais)</label>
+      <input class="finp" id="sobs"
+        placeholder="Ex: hemangioma hepático seg VII 3,2cm | colelitíase 8mm...">
+    </div>
+    <div class="mbtns">
+      <button class="mmbtn" onclick="closeM('m-save')">Cancelar</button>
+      <button class="mmbtn pr" onclick="doSave()">💾 Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+//  EXAMES
+// ═══════════════════════════════════════════════════════════════════
+const EXAMS_MAIN = [
+  {id:'obstetrico',  label:'Obstétrico',           icon:'🤰'},
+  {id:'abdome',      label:'Abdome Total',          icon:'🫀'},
+  {id:'endovaginal', label:'Endovaginal',           icon:'🔬'},
+  {id:'tireoide',    label:'Tireoide c/ Doppler',   icon:'🦋'},
+  {id:'urinario',    label:'Rins e Vias Urinárias', icon:'💧'},
+  {id:'mamas',       label:'Mamas',                 icon:'🎗️'},
+  {id:'vascular',    label:'Vascular',              icon:'🩸'},
+];
+const EXAMS_EXTRA = [
+  {id:'prostata',         label:'Próstata',         icon:'🔵'},
+  {id:'cervical',         label:'Cervical',         icon:'🔴'},
+  {id:'partes_moles',     label:'Partes Moles',     icon:'🟡'},
+  {id:'parede_abdominal', label:'Parede Abdominal', icon:'🟢'},
+];
+const ALL_EXAMS = [...EXAMS_MAIN, ...EXAMS_EXTRA];
+
+// ═══════════════════════════════════════════════════════════════════
+//  TEMPLATES
+// ═══════════════════════════════════════════════════════════════════
+const TPL = {
+obstetrico:`ULTRASSONOGRAFIA OBSTÉTRICA
+
+Feto único em situação longitudinal, apresentação cefálica, dorso à direita/esquerda.
+Batimentos cardíacos fetais presentes. FC ___ bpm. Movimentos fetais presentes.
+
+Biometria fetal:
+D.B.P.: ___ cm.  CC: ___ cm.  Fêmur: ___ cm.  CA: ___ cm.
+Peso fetal estimado: ___ gramas (Percentil ___)
+
+Placenta: parede anterior/posterior, grau ___.
+Líquido amniótico: volume normal, maior bolsão ___ cm.
+
+IMPRESSÃO DIAGNÓSTICA:
+- Gestação de ___ semanas e ___ dias com vitalidade fetal preservada.
+
+Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
+
+abdome:`ULTRASSONOGRAFIA DO ABDOME TOTAL
+
+Fígado com dimensões e forma normais, contornos regulares e ecotextura parenquimatosa homogênea. As veias hepáticas têm configuração anatômica e a porta tem calibre normal.
+Não há dilatação das vias biliares intra ou extra-hepáticas.
+Vesícula biliar distendida fisiologicamente, paredes finas, conteúdo anecoico, sem evidências de cálculos.
+Pâncreas com morfologia, contornos, dimensões e ecotextura preservados.
+Baço tópico, com dimensões, contornos e ecotextura normais.
+Rins tópicos, com forma, contornos e dimensões normais. Parênquima com espessura e ecogenicidade preservadas. Ausência de hidronefrose. Sem cálculos renais evidentes.
+Aorta e veia cava inferior com trajeto e calibre normais.
+Bexiga em repleção fisiológica, paredes finas, conteúdo anecoico.
+Ausência de líquido livre na cavidade abdominal.
+
+IMPRESSÃO DIAGNÓSTICA:
+- Exame ecográfico normal.
+
+Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
+
+endovaginal:`ULTRASSONOGRAFIA ENDOVAGINAL
+
+Útero em anteversoflexão, centrado, contornos regulares, ecotextura homogênea.
+Útero: ___ cm. Volume: ___ cm³. Endométrio: ___ mm.
+
+Ovário direito: normal. Medidas: ___ cm. Volume: ___ cm³.
+Ovário esquerdo: normal. Medidas: ___ cm. Volume: ___ cm³.
+
+Ausência de líquido livre na pequena pelve.
+
+IMPRESSÃO DIAGNÓSTICA:
+- Exame ecográfico normal.
+
+Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
+
+tireoide:`ULTRASSONOGRAFIA DE TIREÓIDE COM DOPPLER
+
+Tecido glandular de volume preservado, contornos regulares, ecogenicidade e ecotextura homogêneas. Sem nódulos ou cistos detectáveis.
+
+Lobo direito: ___ cm. Volume = ___ cm³.
+Lobo esquerdo: ___ cm. Volume = ___ cm³.
+Istmo: ___ cm. Volume global: ___ cm³.
+
+DOPPLERVELOCIMETRIA COLORIDA: padrão vascular habitual.
+ATID: VPS ___ cm/s   ATIE: VPS ___ cm/s
+
+CONCLUSÃO:
+- Exame ecográfico normal.
+- Estudo Doppler dentro dos limites da normalidade.
+
+Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
+
+urinario:`ULTRASSONOGRAFIA DO APARELHO URINÁRIO
+
+Rim direito: tópico, normal. Eixo bipolar ___ cm. Parênquima ___ cm. Sem hidronefrose. Sem cálculos.
+Rim esquerdo: tópico, normal. Eixo bipolar ___ cm. Parênquima ___ cm. Sem hidronefrose. Sem cálculos.
+
+Bexiga em repleção, paredes finas, conteúdo anecoico.
+
+IMPRESSÃO DIAGNÓSTICA:
+- Exame ecográfico sem achados patológicos.
+
+Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
+
+mamas:`ULTRASSONOGRAFIA DAS MAMAS + AXILAS
+
+Mamas com tecido glandular predominante e ecotextura normal.
+Não se observam imagens nodulares sólidas ou císticas.
+Linfonodos axilares com forma, dimensões e ecotextura normais.
+Regiões para-esternais e prolongamentos axilares livres.
+
+IMPRESSÃO DIAGNÓSTICA:
+- Exame sem anormalidades ecográficas (BI-RADS 1).
+
+Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
+
+vascular:`ULTRASSONOGRAFIA VASCULAR COM DOPPLER
+
+Artérias carótidas comuns, internas e externas bilaterais com fluxo laminar, paredes regulares, sem placas ateromatosas ou estenoses hemodinamicamente significativas ao Doppler colorido e pulsado.
+
+CARÓTIDA DIREITA:
+ACC: VPS ___ cm/s | IPS ___
+ACI: VPS ___ cm/s | IPS ___
+ACE: VPS ___ cm/s | IPS ___
+
+CARÓTIDA ESQUERDA:
+ACC: VPS ___ cm/s | IPS ___
+ACI: VPS ___ cm/s | IPS ___
+ACE: VPS ___ cm/s | IPS ___
+
+Artérias vertebrais com fluxo anterógrado e velocidades dentro dos limites da normalidade bilateralmente.
+
+IMPRESSÃO DIAGNÓSTICA:
+- Exame Doppler vascular sem alterações hemodinamicamente significativas.
+
+Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
+
+prostata:`ULTRASSONOGRAFIA DA PRÓSTATA
+
+Próstata tópica, forma e contornos regulares.
+Dimensões: ___ x ___ x ___ cm. Volume: ___ cm³ (normal ≤ 30 cm³).
+Ecotextura homogênea, sem nodulações suspeitas ao ultrassom.
+Vesículas seminais de aspecto normal. Bexiga em repleção, paredes finas.
+Resíduo pós-miccional: ___ mL.
+
+IMPRESSÃO DIAGNÓSTICA:
+- Próstata de volume ___, sem nodulações suspeitas ao ultrassom.
+
+Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
+
+cervical:`ULTRASSONOGRAFIA DE REGIÃO CERVICAL
+
+Partes moles cervicais sem alterações ecográficas.
+Linfonodos submandibulares: aspecto normal, até ___ mm.
+Linfonodos jugulares internos: sem linfonodomegalia.
+Linfonodos supraclaviculares: sem alterações.
+Glândulas salivares: aspecto normal.
+Vasos cervicais: carótidas e jugulares pérvias ao Doppler colorido.
+
+IMPRESSÃO DIAGNÓSTICA:
+- Exame ecográfico de região cervical sem alterações significativas.
+
+Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
+
+partes_moles:`ULTRASSONOGRAFIA DE PARTES MOLES
+
+Local: ___ | Lado: ___
+
+Planos superficiais com ecotextura preservada.
+___ (achado — dimensões, ecogenicidade, vascularização ao Doppler).
+Estruturas adjacentes sem alterações. Sem coleção ou hematoma.
+
+IMPRESSÃO DIAGNÓSTICA:
+- ___ (conclusão).
+
+Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
+
+parede_abdominal:`ULTRASSONOGRAFIA DA PAREDE ABDOMINAL
+
+Região: ___
+
+Planos musculares e aponeuróticos de aspecto normal.
+___ (achado: hérnia, coleção, nódulo — dimensões, conteúdo, redutibilidade).
+
+IMPRESSÃO DIAGNÓSTICA:
+- ___ (conclusão).
+
+Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`,
+};
+
+// ═══════════════════════════════════════════════════════════════════
+//  ESTADO
+// ═══════════════════════════════════════════════════════════════════
+let curExam     = 'abdome';
+let report      = '';
+let bfilt       = 'todos';
+let banco       = [];
+let prompts     = [];
+let fileList    = [];         // {name, base64, type, preview}
+let multiLaudos = [];
+let multiActive = 0;
+let recObj      = null;
+let isRec       = false;
+let charts      = {};
+
+// ═══════════════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════════════
+buildEbar();
+document.getElementById('pac-data').value = new Date().toISOString().split('T')[0];
+loadBanco();
+loadPrompts();
+
+function buildEbar() {
+  const bar = document.getElementById('ebar');
+  const chip = e =>
+    `<button class="echip${e.id===curExam?' on':''}" onclick="setExam('${e.id}',this)">
+       <span style="font-size:13px">${e.icon}</span>${e.label}</button>`;
+  bar.innerHTML =
+    `<span class="egl">Principais</span>` + EXAMS_MAIN.map(chip).join('') +
+    `<div class="esep"></div><span class="egl">Complementares</span>` + EXAMS_EXTRA.map(chip).join('');
+}
+
+function setExam(id, btn) {
+  curExam = id;
+  document.querySelectorAll('.echip').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  btn.scrollIntoView({behavior:'smooth', block:'nearest', inline:'center'});
+  document.getElementById('ragpill').classList.remove('show');
+}
+
+function getPaciente() {
+  return {
+    nome:  document.getElementById('pac-nome').value.trim(),
+    idade: document.getElementById('pac-idade').value.trim(),
+    data:  document.getElementById('pac-data').value
+  };
+}
+
+function formatDataBR(iso) {
+  if (!iso) return '';
+  const [y, m, d] = iso.split('-');
+  return d && m && y ? `${d}/${m}/${y}` : iso;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  TABS
+// ═══════════════════════════════════════════════════════════════════
+function goTab(t, btn) {
+  document.querySelectorAll('.ntab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('pg-editor').style.display = t==='editor' ? 'flex'  : 'none';
+  document.getElementById('pg-dash').style.display   = t==='dash'   ? 'block' : 'none';
+  document.getElementById('pg-config').style.display = t==='config' ? 'block' : 'none';
+  document.getElementById('banco').style.display     = t==='editor' ? 'flex'  : 'none';
+  if (t==='dash') renderDash();
+}
+
+function mNav(t, btn) {
+  document.querySelectorAll('.mntab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('pg-editor').style.display = 'none';
+  document.getElementById('pg-dash').style.display   = 'none';
+  document.getElementById('pg-config').style.display = 'none';
+  document.getElementById('banco').style.display     = 'none';
+  if (t==='editor') {
+    document.getElementById('pg-editor').style.display = 'flex';
+    document.getElementById('banco').style.display     = 'flex';
+  } else if (t==='dash') {
+    document.getElementById('pg-dash').style.display = 'block'; renderDash();
+  } else if (t==='banco') {
+    document.getElementById('banco').style.display = 'flex';
+    document.getElementById('banco').classList.remove('col');
+  } else if (t==='config') {
+    document.getElementById('pg-config').style.display = 'block';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  INPUT & ARQUIVOS
+// ═══════════════════════════════════════════════════════════════════
+function getInput() {
+  return document.getElementById('ti').value.trim();
+}
+
+function clearAll() {
+  document.getElementById('ti').value = '';
+  fileList = [];
+  renderThumbs();
+  document.getElementById('ragpill').classList.remove('show');
+}
+
+function onFiles(input) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  let loaded = 0;
+  files.forEach(f => {
+    // Evita duplicatas pelo nome
+    if (fileList.find(x => x.name === f.name)) { loaded++; return; }
+    const reader = new FileReader();
+    reader.onload = e => {
+      fileList.push({
+        name:    f.name,
+        base64:  e.target.result.split(',')[1],
+        type:    f.type,
+        preview: f.type.startsWith('image/') ? e.target.result : null
+      });
+      if (++loaded === files.length) {
+        renderThumbs();
+        toast(`${files.length} arquivo(s) adicionado(s)`, 'ok');
+      }
+    };
+    reader.readAsDataURL(f);
+  });
+  // Reseta input para permitir re-seleção do mesmo arquivo
+  input.value = '';
+}
+
+function removeFile(idx) {
+  fileList.splice(idx, 1);
+  renderThumbs();
+}
+
+function renderThumbs() {
+  const ct  = document.getElementById('attach-ct');
+  const box = document.getElementById('thumbs');
+  if (!fileList.length) {
+    ct.style.display  = 'none';
+    box.style.display = 'none';
+    box.innerHTML     = '';
+    return;
+  }
+  ct.style.display   = 'inline';
+  ct.textContent     = fileList.length;
+  box.style.display  = 'flex';
+  box.innerHTML = fileList.map((f, i) => `
+    <div class="thumb">
+      ${f.preview
+        ? `<img src="${f.preview}" alt="${f.name}">`
+        : `<span>📄</span><div class="thumb-name">${f.name}</div>`}
+      <button class="thumb-del" onclick="removeFile(${i})" title="Remover">✕</button>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  VOZ
+// ═══════════════════════════════════════════════════════════════════
+function toggleRec() {
+  const SR = window.webkitSpeechRecognition || window.SpeechRecognition;
+  if (!SR) { toast('Use Chrome para gravação de voz', 'err'); return; }
+  const btn = document.getElementById('vozbtn');
+  if (!isRec) {
+    recObj = new SR();
+    recObj.lang = 'pt-BR';
+    recObj.continuous     = true;
+    recObj.interimResults = true;
+    recObj.onstart = () => {
+      isRec = true;
+      btn.classList.add('live');
+      btn.textContent = '⏹️';
+      btn.title = 'Parar gravação';
+    };
+    recObj.onresult = e => {
+      let t = '';
+      for (let i = e.resultIndex; i < e.results.length; i++)
+        t += e.results[i][0].transcript;
+      const ta = document.getElementById('ti');
+      ta.value = (ta.value + ' ' + t).trimStart();
+    };
+    recObj.onerror = e => {
+      toast('Erro no microfone: ' + e.error, 'err');
+      stopRec(btn);
+    };
+    recObj.onend = () => stopRec(btn);
+    recObj.start();
+  } else {
+    recObj.stop();
+  }
+}
+
+function stopRec(btn) {
+  isRec = false;
+  btn.classList.remove('live');
+  btn.textContent = '🎙️';
+  btn.title = 'Gravar voz';
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  RAG
+// ═══════════════════════════════════════════════════════════════════
+async function ragSearch(query, exam) {
+  try {
+    const r = await fetch('/api/search', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({query, exam, limit: 5})
+    });
+    if (!r.ok) return [];
+    return (await r.json()).results || [];
+  } catch { return []; }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  PROMPT
+// ═══════════════════════════════════════════════════════════════════
+async function buildPrompt(input, exam) {
+  const similar = await ragSearch(input || 'normal', exam);
+  const pill = document.getElementById('ragpill');
+
+  if (similar.length > 0) {
+    pill.classList.add('show');
+    document.getElementById('ragtxt').textContent =
+      `${similar.length} laudo(s) encontrado(s) no banco`;
+  } else {
+    pill.classList.remove('show');
+  }
+
+  let ragCtx = '';
+  if (similar.length > 0) {
+    ragCtx = '\n\n════ LAUDOS DO DR. ROBERTO — REFERÊNCIA OBRIGATÓRIA ════\n';
+    ragCtx += 'COPIE as frases e estrutura abaixo PALAVRA POR PALAVRA para os mesmos achados.\n';
+    ragCtx += 'Adapte SOMENTE os valores fornecidos nesta consulta. NUNCA invente medidas.\n\n';
+    similar.forEach((l, i) => {
+      const tipo = l.classification === 'patologico' ? '⚠️ PATOLÓGICO' : '✅ NORMAL';
+      const obs  = l.observation ? ` | ${l.observation}` : '';
+      ragCtx += `[REF ${i+1} | ${tipo}${obs}]\n${l.report_text}\n\n`;
+    });
+    ragCtx += '════ FIM DAS REFERÊNCIAS ════';
+  }
+
+  const pts  = prompts.filter(p => p.exam === exam || p.exam === 'geral');
+  const pStr = pts.length
+    ? '\n\nINSTRUÇÕES FIXAS (SEMPRE APLICAR):\n' + pts.map(p => '- ' + p.txt).join('\n')
+    : '';
+
+  const hasFiles = fileList.length > 0;
+  const imgNote  = hasFiles
+    ? `\n\nARQUIVOS RECEBIDOS (${fileList.length}): Analise com atenção. ` +
+      'Extraia APENAS valores claramente visíveis nas imagens/PDFs. NUNCA invente medidas.'
+    : '';
+
+  const sys =
+`Você é o assistente de laudos ultrassonográficos do Dr. Roberto Freire Margotti (CRM-BA 26929 | RQE: 21367).
+
+SAÍDA: Retorne APENAS o texto final do laudo. Zero explicações, raciocínio ou comentários externos.
+
+REGRAS ABSOLUTAS — VIOLAÇÃO NÃO É PERMITIDA:
+1. NUNCA invente medidas. Dado não fornecido = "___". Jamais estime valores.
+2. Copie as frases das referências PALAVRA POR PALAVRA para os mesmos achados.
+3. NUNCA use dados ou medidas de pacientes das referências — apenas o estilo.
+4. Mantenha EXATAMENTE o padrão de IMPRESSÃO DIAGNÓSTICA das referências.
+5. Para achados sem referência: use estilo sóbrio e técnico do Dr. Roberto.
+6. Assine sempre: Dr. Roberto Freire Margotti | CRM-BA 26929 | RQE: 21367`;
+
+  const userMsg =
+    `EXAME: ${exam}\n` +
+    `DADOS DO PACIENTE: ${input || '(ver imagens/arquivos)'}` +
+    ragCtx +
+    `\n\nTEMPLATE BASE (usar somente se banco vazio):\n${TPL[exam] || ''}` +
+    pStr + imgNote;
+
+  return {sys, userMsg};
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  CALL AI
+// ═══════════════════════════════════════════════════════════════════
+async function callAI(sys, userMsg) {
+  const body = {system: sys, userMsg};
+  if (fileList.length > 0) {
+    body.images = fileList.map(f => ({name: f.name, base64: f.base64, type: f.type}));
+  }
+  const r = await fetch('/api/generate', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify(body)
+  });
+  if (!r.ok) {
+    const e = await r.json().catch(() => ({}));
+    throw new Error(e.error || `Erro ${r.status}: ${r.statusText}`);
+  }
+  const data = await r.json();
+  if (!data.content) throw new Error('Resposta vazia do servidor');
+  return data.content;
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  GERAR
+// ═══════════════════════════════════════════════════════════════════
+async function generate() {
+  const input = getInput();
+  if (!input && !fileList.length) {
+    toast('Descreva os achados ou anexe um arquivo', 'err'); return;
+  }
+  const btn = document.getElementById('gbtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span> Buscando...';
+  try {
+    const {sys, userMsg} = await buildPrompt(input, curExam);
+    btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span> Gerando...';
+    const content = await callAI(sys, userMsg);
+    report = content;
+    document.getElementById('lta').value = content;
+    document.getElementById('lta').setAttribute('readonly', '');
+    document.getElementById('lempty').style.display = 'none';
+    document.getElementById('mlarea').style.display = 'none';
+    document.getElementById('larea').style.display  = 'flex';
+    toast('Laudo gerado!', 'ok');
+    autoSave(curExam, content);
+  } catch (e) {
+    toast('Erro: ' + e.message, 'err');
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '⚡ Gerar Laudo';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  MULTI-LAUDO
+// ═══════════════════════════════════════════════════════════════════
+async function generateMulti() {
+  const input = getInput();
+  if (!input && !fileList.length) { toast('Insira os dados', 'err'); return; }
+  const btn = document.getElementById('mbtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="dots"><span></span><span></span><span></span></span> Detectando...';
+  try {
+    const detSys = 'Classificador médico. Responda APENAS com JSON array. Sem texto extra.';
+    const detMsg =
+      `Quais exames ultrassonográficos estão neste texto?\n` +
+      `IDs: obstetrico,abdome,endovaginal,tireoide,urinario,mamas,vascular,prostata,cervical,partes_moles,parede_abdominal\n` +
+      `Texto: "${input}"\n` +
+      `Responda SOMENTE com array. Ex: ["tireoide","mamas"]`;
+
+    // Detecção sem arquivos — mais rápido
+    const tmpFiles = fileList;
+    fileList = [];
+    const raw = await callAI(detSys, detMsg);
+    fileList = tmpFiles;
+
+    const match = raw.match(/\[[\s\S]*?\]/);
+    if (!match) throw new Error('Formato inesperado na detecção');
+    const ids = JSON.parse(match[0]);
+    if (!ids.length) { toast('Nenhum exame detectado', 'err'); return; }
+
+    toast(`${ids.length} exame(s) detectado(s)`, 'inf');
+    btn.innerHTML = `<span class="dots"><span></span><span></span><span></span></span> Gerando ${ids.length}...`;
+
+    const results = await Promise.all(ids.map(async id => {
+      const info = ALL_EXAMS.find(e => e.id === id) || {id, label: id, icon: '📋'};
+      const {sys, userMsg} = await buildPrompt(input, id);
+      const txt = await callAI(sys, userMsg);
+      return {exam: id, label: info.label, icon: info.icon, text: txt};
+    }));
+
+    multiLaudos = results;
+    multiActive = 0;
+    document.getElementById('lempty').style.display = 'none';
+    document.getElementById('larea').style.display  = 'none';
+    document.getElementById('mlarea').style.display = 'flex';
+    renderMLTabs();
+    toast(`${multiLaudos.length} laudos gerados!`, 'ok');
+    multiLaudos.forEach(l => autoSave(l.exam, l.text));
+  } catch (e) {
+    toast('Erro: ' + e.message, 'err');
+    console.error(e);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '🧩 Multi-Laudo';
+  }
+}
+
+function renderMLTabs() {
+  document.getElementById('mltabs').innerHTML = multiLaudos.map((l, i) =>
+    `<button class="mltab${i===multiActive?' on':''}" onclick="switchML(${i})">${l.icon} ${l.label}</button>`
+  ).join('');
+  document.getElementById('mlta').value = multiLaudos[multiActive]?.text || '';
+}
+function switchML(i)  { multiActive = i; renderMLTabs(); }
+function copyML()     { navigator.clipboard.writeText(multiLaudos[multiActive]?.text || ''); toast('Copiado!', 'ok'); }
+function pdfML()      { const l = multiLaudos[multiActive]; if (l) makePDF(l.label, l.exam, l.text); }
+function saveAll()    { multiLaudos.forEach(l => autoSave(l.exam, l.text)); toast(`${multiLaudos.length} salvos!`, 'ok'); }
+
+// ═══════════════════════════════════════════════════════════════════
+//  AÇÕES LAUDO
+// ═══════════════════════════════════════════════════════════════════
+function copyL() {
+  navigator.clipboard.writeText(document.getElementById('lta').value || report);
+  toast('Copiado!', 'ok');
+}
+function editL() {
+  document.getElementById('lta').removeAttribute('readonly');
+  document.getElementById('lta').focus();
+  toast('Modo edição ativo', 'inf');
+}
+function pdfL() {
+  const info = ALL_EXAMS.find(e => e.id === curExam);
+  makePDF(info?.label || curExam, curExam, document.getElementById('lta').value || report);
+}
+
+function makePDF(label, examId, txt) {
+  if (!txt) { toast('Nenhum laudo para exportar', 'err'); return; }
+  const pac    = getPaciente();
+  const dataBR = pac.data ? formatDataBR(pac.data) : new Date().toLocaleDateString('pt-BR');
+  const pacHeader = pac.nome ? `
+    <div class="ph">
+      <div class="ph-name">${pac.nome}</div>
+      <div class="ph-meta">${[pac.idade?'Idade: '+pac.idade:'', pac.data?'Data: '+dataBR:''].filter(Boolean).join(' &nbsp;|&nbsp; ')}</div>
+    </div>` : '';
+
+  const html = `<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="UTF-8">
+<title>Laudo — ${pac.nome || label}</title>
+<style>
+body{font-family:Georgia,serif;max-width:720px;margin:40px auto;padding:20px 40px;font-size:13px;line-height:1.9;color:#111}
+.h{border-bottom:2px solid #111;padding-bottom:12px;margin-bottom:16px}
+.h h1{font-size:13px;font-weight:700;margin:0 0 3px;text-transform:uppercase;letter-spacing:1px}
+.h p{font-size:11px;color:#555;margin:0}
+.ph{background:#f8f9fa;border:1px solid #dee2e6;border-radius:6px;padding:10px 14px;margin-bottom:16px}
+.ph-name{font-size:15px;font-weight:700;color:#111;margin-bottom:2px}
+.ph-meta{font-size:11px;color:#666}
+pre{white-space:pre-wrap;font-family:Georgia,serif;font-size:13px}
+.f{border-top:1px solid #ccc;margin-top:40px;padding-top:10px;font-size:10px;color:#999}
+@media print{body{margin:20px 30px}}
+</style></head><body>
+<div class="h">
+  <h1>${label}</h1>
+  <p>Dr. Roberto Freire Margotti &middot; CRM-BA 26929 &middot; RQE: 21367 &middot; ${dataBR}</p>
+</div>
+${pacHeader}
+<pre>${txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre>
+<div class="f">Margotti AI &middot; ${dataBR}</div>
+</body></html>`;
+
+  const a = Object.assign(document.createElement('a'), {
+    href:     URL.createObjectURL(new Blob([html], {type: 'text/html'})),
+    download: `laudo-${examId}-${Date.now()}.html`
+  });
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('Baixado! Abra e imprima como PDF', 'ok');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  BANCO
+// ═══════════════════════════════════════════════════════════════════
+async function loadBanco() {
+  try {
+    const r = await fetch('/api/db?path=' + encodeURIComponent(
+      '/rest/v1/laudos?select=id,exam,classification,observation,report_text,patient_name,patient_age,exam_date,created_at' +
+      '&order=created_at.desc&limit=300'
+    ));
+    if (r.ok) {
+      const data = await r.json();
+      if (Array.isArray(data) && data.length) {
+        banco = data.map(d => ({
+          id:    d.id,
+          exam:  d.exam || '',
+          cls:   d.classification || 'normal',
+          obs:   d.observation || '',
+          txt:   d.report_text || '',
+          nome:  d.patient_name || '',
+          idade: d.patient_age || '',
+          data:  d.exam_date || '',
+          dt:    d.created_at ? new Date(d.created_at).toLocaleDateString('pt-BR') : ''
+        }));
+        localStorage.setItem('mb', JSON.stringify(banco));
+        renderBanco();
+        return;
+      }
+    }
+  } catch (e) {
+    console.warn('loadBanco fallback:', e.message);
+  }
+  banco = JSON.parse(localStorage.getItem('mb') || '[]');
+  renderBanco();
+}
+
+function autoSave(examId, txt) {
+  if (!txt || banco.find(b => b.txt === txt)) return;
+  const pac = getPaciente();
+  const item = {
+    id: Date.now(), exam: examId, cls: 'normal', obs: '', txt,
+    nome: pac.nome, idade: pac.idade, data: pac.data,
+    dt: new Date().toLocaleDateString('pt-BR')
+  };
+  banco.unshift(item);
+  localStorage.setItem('mb', JSON.stringify(banco));
+  renderBanco();
+  // Salva no Supabase em background
+  fetch('/api/db?path=' + encodeURIComponent('/rest/v1/laudos'), {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      exam: examId, exam_name: examId, classification: 'normal',
+      observation: '', report_text: txt,
+      patient_name: pac.nome, patient_age: pac.idade, exam_date: pac.data
+    })
+  }).catch(e => console.warn('autoSave remote:', e.message));
+}
+
+function toggleBanco() { document.getElementById('banco').classList.toggle('col'); }
+
+function filtB(btn) {
+  document.querySelectorAll('.bflt').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  bfilt = btn.dataset.f;
+  renderBanco();
+}
+
+function renderBanco() {
+  const busca = (document.getElementById('bsearch')?.value || '').toLowerCase().trim();
+  let lista = bfilt === 'todos' ? banco : banco.filter(l => l.cls === bfilt);
+  if (busca) {
+    lista = lista.filter(l =>
+      (l.nome||'').toLowerCase().includes(busca) ||
+      (l.obs||'').toLowerCase().includes(busca)  ||
+      (l.exam||'').toLowerCase().includes(busca) ||
+      (l.txt||'').toLowerCase().includes(busca)
+    );
+  }
+  document.getElementById('bct').textContent = banco.length;
+  if (!lista.length) {
+    document.getElementById('bcards').innerHTML =
+      '<div class="bempty">Nenhum laudo encontrado.</div>';
+    return;
+  }
+  document.getElementById('bcards').innerHTML = lista.map(l => `
+    <div class="lcard" onclick="viewL(${l.id})">
+      <div class="lctop">
+        <span class="tag ${l.cls==='normal'?'tn':'tp'}">${l.cls==='normal'?'✅ Normal':'⚠️ Patol.'}</span>
+        <span class="lcdt">${l.data ? formatDataBR(l.data) : l.dt}</span>
+      </div>
+      ${l.nome ? `<div class="lcpac">👤 ${l.nome}${l.idade?' · '+l.idade:''}</div>` : ''}
+      <div class="lcex">${l.exam}</div>
+      ${l.obs ? `<div class="lcobs">📌 ${l.obs}</div>` : ''}
+      <div class="lcprev">${(l.txt||'').substring(0,120)}...</div>
+      <div class="lcbtns">
+        <button class="lcbtn" onclick="event.stopPropagation();viewL(${l.id})">Ver</button>
+        <button class="lcbtn dl" onclick="event.stopPropagation();delL(${l.id})">Excluir</button>
+      </div>
+    </div>`).join('');
+}
+
+function viewL(id) {
+  const l = banco.find(x => x.id === id);
+  if (!l) return;
+  report = l.txt;
+  if (l.nome)  document.getElementById('pac-nome').value  = l.nome;
+  if (l.idade) document.getElementById('pac-idade').value = l.idade;
+  if (l.data)  document.getElementById('pac-data').value  = l.data;
+  document.getElementById('lta').value = l.txt;
+  document.getElementById('lta').setAttribute('readonly', '');
+  document.getElementById('lempty').style.display = 'none';
+  document.getElementById('mlarea').style.display = 'none';
+  document.getElementById('larea').style.display  = 'flex';
+  // Volta para o editor
+  goTab('editor', document.querySelector('.ntab'));
+  toast('Laudo carregado', 'inf');
+}
+
+function delL(id) {
+  if (!confirm('Confirma exclusão do laudo?')) return;
+  banco = banco.filter(l => l.id !== id);
+  localStorage.setItem('mb', JSON.stringify(banco));
+  renderBanco();
+  toast('Removido', 'ok');
+  fetch('/api/db?path=' + encodeURIComponent(`/rest/v1/laudos?id=eq.${id}`),
+    {method: 'DELETE'}).catch(() => {});
+}
+
+function doSave() {
+  const cls = document.getElementById('scls').value;
+  const obs = document.getElementById('sobs').value.trim();
+  const txt = document.getElementById('lta').value || report;
+  if (!txt) { toast('Nenhum laudo para salvar', 'err'); return; }
+  const pac = getPaciente();
+  const idx = banco.findIndex(l => l.txt === txt);
+  if (idx >= 0) {
+    Object.assign(banco[idx], {cls, obs, nome: pac.nome, idade: pac.idade, data: pac.data});
+  } else {
+    banco.unshift({
+      id: Date.now(), exam: curExam, cls, obs, txt,
+      nome: pac.nome, idade: pac.idade, data: pac.data,
+      dt: new Date().toLocaleDateString('pt-BR')
+    });
+  }
+  localStorage.setItem('mb', JSON.stringify(banco));
+  renderBanco();
+  closeM('m-save');
+  document.getElementById('sobs').value = '';
+  toast('Salvo no banco!', 'ok');
+  fetch('/api/db?path=' + encodeURIComponent('/rest/v1/laudos'), {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      exam: curExam, exam_name: curExam,
+      classification: cls, observation: obs, report_text: txt,
+      patient_name: pac.nome, patient_age: pac.idade, exam_date: pac.data
+    })
+  }).catch(() => {});
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  DASHBOARD
+// ═══════════════════════════════════════════════════════════════════
+function renderDash() {
+  const busca    = (document.getElementById('dsearch')?.value || '').toLowerCase().trim();
+  const filtrado = busca
+    ? banco.filter(l =>
+        (l.nome||'').toLowerCase().includes(busca) ||
+        (l.obs||'').toLowerCase().includes(busca)  ||
+        (l.exam||'').toLowerCase().includes(busca) ||
+        (l.txt||'').toLowerCase().includes(busca))
+    : banco;
+
+  document.getElementById('dsearch-lbl').textContent = busca
+    ? `${filtrado.length} resultado(s) para "${busca}"`
+    : '';
+
+  const total = filtrado.length;
+  const norm  = filtrado.filter(l => l.cls === 'normal').length;
+  const pat   = filtrado.filter(l => l.cls === 'patologico').length;
+  const tipos = new Set(filtrado.map(l => l.exam).filter(Boolean)).size;
+
+  document.getElementById('d-total').textContent = total;
+  document.getElementById('d-norm').textContent  = norm;
+  document.getElementById('d-pat').textContent   = pat;
+  document.getElementById('d-tipos').textContent = tipos;
+
+  // Por exame
+  const byExam = {};
+  filtrado.forEach(l => { if (l.exam) byExam[l.exam] = (byExam[l.exam] || 0) + 1; });
+  const examLabels = Object.keys(byExam).map(id => {
+    const e = ALL_EXAMS.find(x => x.id === id);
+    return e ? `${e.icon} ${e.label}` : id;
+  });
+
+  // Por mês (últimos 6)
+  const now    = new Date();
+  const months = Array.from({length: 6}, (_, i) => {
+    const d = new Date(now.getFullYear(), now.getMonth() - 5 + i, 1);
+    return {label: d.toLocaleDateString('pt-BR', {month:'short', year:'2-digit'}),
+      y: d.getFullYear(), m: d.getMonth()};
+  });
+  const byMonth = months.map(({y, m}) =>
+    filtrado.filter(l => {
+      const dt = l.data ? new Date(l.data + 'T12:00:00') : null;
+      if (dt) return dt.getFullYear() === y && dt.getMonth() === m;
+      if (!l.dt) return false;
+      const p = l.dt.split('/');
+      return p.length === 3 && parseInt(p[1])-1 === m && parseInt(p[2]) === y % 100;
+    }).length
+  );
+
+  const CDEF = {
+    responsive: true, maintainAspectRatio: false,
+    plugins: {legend: {labels: {color: '#8098cc', font: {family: 'Sora', size: 11}}}},
+    scales: {
+      x: {ticks: {color: '#5a6e99', font: {family: 'Sora', size: 10}}, grid: {color: 'rgba(99,140,255,.07)'}},
+      y: {ticks: {color: '#5a6e99', font: {family: 'Sora', size: 10}}, grid: {color: 'rgba(99,140,255,.07)'}}
+    }
+  };
+
+  if (charts.donut) charts.donut.destroy();
+  charts.donut = new Chart(document.getElementById('chartDonut'), {
+    type: 'doughnut',
+    data: {labels: ['Normais', 'Patológicos'],
+      datasets: [{data: [norm, pat],
+        backgroundColor: ['rgba(52,211,153,.7)', 'rgba(248,113,113,.7)'],
+        borderColor: ['#34d399', '#f87171'], borderWidth: 2}]},
+    options: {responsive: true, maintainAspectRatio: false,
+      plugins: {legend: {labels: {color: '#8098cc', font: {family: 'Sora', size: 11}}}}}
+  });
+
+  if (charts.line) charts.line.destroy();
+  charts.line = new Chart(document.getElementById('chartLine'), {
+    type: 'line',
+    data: {labels: months.map(m => m.label),
+      datasets: [{label: 'Laudos', data: byMonth,
+        borderColor: '#4f8ef7', backgroundColor: 'rgba(79,142,247,.15)',
+        tension: .4, pointBackgroundColor: '#4f8ef7', fill: true}]},
+    options: {...CDEF, plugins: {legend: {display: false}}}
+  });
+
+  if (charts.bar) charts.bar.destroy();
+  charts.bar = new Chart(document.getElementById('chartBar'), {
+    type: 'bar',
+    data: {labels: examLabels,
+      datasets: [{label: 'Laudos', data: Object.values(byExam),
+        backgroundColor: 'rgba(79,142,247,.6)', borderColor: '#4f8ef7',
+        borderWidth: 1, borderRadius: 5}]},
+    options: {...CDEF, plugins: {legend: {display: false}},
+      scales: {
+        x: {ticks: {color: '#5a6e99', font: {family: 'Sora', size: 9}}, grid: {color: 'rgba(99,140,255,.07)'}},
+        y: {ticks: {color: '#5a6e99', font: {family: 'Sora', size: 10}}, grid: {color: 'rgba(99,140,255,.07)'}}
+      }}
+  });
+
+  // Ranking
+  const sorted = Object.entries(byExam).sort((a, b) => b[1] - a[1]);
+  const maxv   = sorted[0]?.[1] || 1;
+  document.getElementById('toplist').innerHTML = sorted.slice(0, 8).map(([id, ct]) => {
+    const e = ALL_EXAMS.find(x => x.id === id);
+    return `<div class="top-item">
+      <div class="top-lbl">${e ? e.icon+' '+e.label : id}</div>
+      <div class="top-bar-wrap"><div class="top-bar" style="width:${Math.round(ct/maxv*100)}%"></div></div>
+      <div class="top-val">${ct}</div>
+    </div>`;
+  }).join('') || '<div style="color:var(--mut);font-size:12px">Nenhum dado.</div>';
+
+  // Pacientes recentes
+  const pacientes = filtrado
+    .filter(l => l.nome)
+    .sort((a, b) => (b.data || b.dt || '').localeCompare(a.data || a.dt || ''))
+    .reduce((acc, l) => {
+      if (!acc.find(x => x.nome === l.nome)) acc.push(l);
+      return acc;
+    }, [])
+    .slice(0, 10);
+
+  document.getElementById('patlist').innerHTML = pacientes.length
+    ? pacientes.map(l => `
+      <div class="dpat-item" onclick="searchPaciente('${l.nome.replace(/'/g, "\\'")}')">
+        <div>
+          <div class="dpat-name">👤 ${l.nome}</div>
+          <div class="dpat-meta">${l.exam}${l.data?' · '+formatDataBR(l.data):l.dt?' · '+l.dt:''}${l.idade?' · '+l.idade:''}</div>
+        </div>
+        <span class="tag ${l.cls==='normal'?'tn':'tp'}">${l.cls==='normal'?'✅':'⚠️'}</span>
+      </div>`).join('')
+    : '<div style="color:var(--mut);font-size:12px">Nenhum paciente com nome registrado.</div>';
+}
+
+function searchPaciente(nome) {
+  document.getElementById('dsearch').value = nome;
+  renderDash();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  INSTRUÇÕES
+// ═══════════════════════════════════════════════════════════════════
+function unlock() {
+  if (document.getElementById('pwdinp').value === 'margotti') {
+    document.getElementById('lockform').style.display = 'none';
+    document.getElementById('unlocked').style.display = '';
+    toast('Desbloqueado!', 'ok');
+  } else {
+    toast('Senha incorreta', 'err');
+    document.getElementById('pwdinp').value = '';
+  }
+}
+
+async function addPrompt() {
+  const e = document.getElementById('pexam').value;
+  const t = document.getElementById('ptxt').value.trim();
+  if (!t) { toast('Digite a instrução', 'err'); return; }
+  let newId = Date.now();
+  try {
+    const r = await fetch('/api/db?path=' + encodeURIComponent('/rest/v1/instrucoes'), {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({exam: e, texto: t})
+    });
+    const data = await r.json();
+    if (Array.isArray(data) && data[0]?.id) newId = data[0].id;
+  } catch (err) {
+    console.warn('addPrompt remote:', err.message);
+  }
+  prompts.push({id: newId, exam: e, txt: t});
+  localStorage.setItem('mp', JSON.stringify(prompts));
+  document.getElementById('ptxt').value = '';
+  renderPrompts();
+  toast('Instrução salva!', 'ok');
+}
+
+function delPrompt(id) {
+  prompts = prompts.filter(p => p.id !== id);
+  localStorage.setItem('mp', JSON.stringify(prompts));
+  renderPrompts();
+  fetch('/api/db?path=' + encodeURIComponent(`/rest/v1/instrucoes?id=eq.${id}`),
+    {method: 'DELETE'}).catch(() => {});
+  toast('Removida', 'ok');
+}
+
+async function loadPrompts() {
+  try {
+    const r = await fetch('/api/db?path=' +
+      encodeURIComponent('/rest/v1/instrucoes?select=*&order=created_at.asc'));
+    if (r.ok) {
+      const data = await r.json();
+      if (Array.isArray(data) && data.length) {
+        prompts = data.map(d => ({id: d.id, exam: d.exam, txt: d.texto}));
+        localStorage.setItem('mp', JSON.stringify(prompts));
+        renderPrompts();
+        return;
+      }
+    }
+  } catch (e) {
+    console.warn('loadPrompts fallback:', e.message);
+  }
+  prompts = JSON.parse(localStorage.getItem('mp') || '[]');
+  renderPrompts();
+}
+
+function renderPrompts() {
+  const el = document.getElementById('pilist');
+  if (!prompts.length) {
+    el.innerHTML = '<div style="color:var(--mut);font-size:12px">Nenhuma instrução cadastrada.</div>';
+    return;
+  }
+  el.innerHTML = prompts.map(p => `
+    <div class="piitem">
+      <div class="pitxt">${p.txt}</div>
+      <span class="pitag">${p.exam}</span>
+      <button class="pidel" onclick="delPrompt(${p.id})">✕</button>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════
+//  MODAIS
+// ═══════════════════════════════════════════════════════════════════
+function openM(id)  { document.getElementById(id).classList.remove('off'); }
+function closeM(id) { document.getElementById(id).classList.add('off'); }
+document.querySelectorAll('.ov').forEach(o =>
+  o.addEventListener('click', e => { if (e.target === o) o.classList.add('off'); }));
+
+// ═══════════════════════════════════════════════════════════════════
+//  TOAST
+// ═══════════════════════════════════════════════════════════════════
+let toastTimer;
+function toast(msg, type = 'inf') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className   = `toast show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 4000);
+}
+</script>
+</body>
+</html>
